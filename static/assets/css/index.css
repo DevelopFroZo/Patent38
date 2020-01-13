@@ -1,5 +1,6 @@
 .navbar_custom_a{
-  color: rgb( 40, 141, 203 ) !important;
+  color: #288DCB !important;
+  transition: all 0.5s ease-in-out;
 }
 
 .navbar_custom_a:hover{
@@ -10,62 +11,8 @@
   border-left: rgb( 255, 255, 255 ) 2px solid;
 }
 
-.patent-section{
-  transition: all 0.5s ease-in-out;
-}
-.patent-section:hover{
-  cursor: pointer;
-  filter: opacity( 70% );
-}
-.patent-section:hover .patent-issue{
-  background: #171717;
-  border: #288DCB 1px solid;
-}
-
-.patent{
-  display: flex;
-  flex-direction: column;
-  background: rgba( 255, 255, 255, 0.2 );
-  border: #288DCB 1px solid;
-  border-radius: 20px 20px 0px 0px;
-  padding: 22px 37px 22px 37px;
-  height: 550px;
-}
-
-.patent-serialnumber{
-  font-size: 16px;
-  margin-bottom: 5px;
-}
-
-.patent-name{
-  font-family: "Oswald", sans-serif;
-  font-size: 21px;
-  margin-bottom: 5px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical
-}
-
-.patent-image{
-  height: 80%;
-  background-image: url( "../../patents/2640844/image.jpg" );
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-  border-radius: 6px;
-}
-
-.patent-issue{
-  background: #288DCB;
-  border: #288DCB 1px solid;
-  padding: 9px 21px 9px 21px;
-  width: 60%;
-  transform: translate( 0, -50% );
-  font-family: "Ubuntu", sans-serif;
-  font-size: 16px;
-  transition: all 0.5s ease-in-out;
+#patents{
+  padding-top: 80px;
 }
 
 .seemore{

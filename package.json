@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "dev": "node src/server"
+    "start": "node src/server"
   },
   "repository": {
     "type": "git",

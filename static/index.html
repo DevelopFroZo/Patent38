@@ -21,6 +21,7 @@
 <link href="assets/css/animations.min.css" rel="stylesheet" />
 <!-- CUSTOM CSS -->
 <link href="assets/css/style-blue.css" rel="stylesheet" />
+<link rel = "stylesheet" type = "text/css" href = "assets/css/patent.css" />
 <link rel = "stylesheet" type = "text/css" href = "assets/css/index.css" />
 <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -49,6 +50,7 @@ LIGHT WAVE
 <ul class="nav navbar-nav navbar-right">
 <li><a href="#home">HOME</a></li>
 <li><a href="#services">SERVICES</a></li>
+<li><a href="#patents">PATENTS</a></li>
 <li><a href="#pricing">PRICING</a></li>
 <li><a href="#work">WORK</a></li>
 <li><a href="#team">TEAM</a></li>
@@ -126,61 +128,73 @@ This line is fixed so you can write anything
 </div>
 <!--HOME SECTION END-->
 <!-- PATENTS SECTION START -->
-<div class = "container">
-  <div class = "row text-center header animate-in" data-anim-type = "fade-in-up">
-    <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h3>Patents</h3>
-      <hr />
+<div id = "patents">
+  <div class = "container">
+    <div class = "row text-center header animate-in" data-anim-type = "fade-in-up">
+      <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h3>Patents</h3>
+        <hr />
+      </div>
     </div>
-  </div>
-  <div class = "row animate-in"  data-anim-type = "fade-in-up">
-    <div class = "col-xs-12 col-sm-4 col-md-4 col-lg-4">
-      <div class = "patent-section">
-        <div class = "patent">
-          <div name = "patentSerialnumber" class = "patent-serialnumber">№2640844</div>
-          <div name = "patentName" class = "patent-name">
-            Способ спуска обсадной колонны в горизонтальном стволе большой протяженности
+    <div class = "row animate-in"  data-anim-type = "fade-in-up">
+      <div class = "col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        <div name = "patentSection" class = "patent-section">
+          <div class = "patent">
+            <div name = "patentSerialNumber" class = "patent-serialnumber"></div>
+            <div name = "patentName" class = "patent-name"></div>
+            <div name = "patentImage" class = "patent-image"></div>
           </div>
-          <div name = "patentImage" class = "patent-image"></div>
+          <div class = "text-center">
+            <button class = "patent-issue">ОФОРМИТЬ ЗАЯВКУ</button>
+          </div>
         </div>
-        <div class = "text-center">
-          <button name = "patentIssue" class = "patent-issue">ОФОРМИТЬ ЗАЯВКУ</button>
+      </div>
+      <div class = "col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        <div name = "patentSection" class = "patent-section">
+          <div class = "patent">
+            <div name = "patentSerialNumber" class = "patent-serialnumber"></div>
+            <div name = "patentName" class = "patent-name"></div>
+            <div name = "patentImage" class = "patent-image"></div>
+          </div>
+          <div class = "text-center">
+            <button class = "patent-issue">ОФОРМИТЬ ЗАЯВКУ</button>
+          </div>
+        </div>
+      </div>
+      <div class = "col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        <div name = "patentSection" class = "patent-section">
+          <div class = "patent">
+            <div name = "patentSerialNumber" class = "patent-serialnumber"></div>
+            <div name = "patentName" class = "patent-name"></div>
+            <div name = "patentImage" class = "patent-image"></div>
+          </div>
+          <div class = "text-center">
+            <button class = "patent-issue">ОФОРМИТЬ ЗАЯВКУ</button>
+          </div>
         </div>
       </div>
     </div>
-    <div class = "col-xs-12 col-sm-4 col-md-4 col-lg-4">
-      <div class = "patent-section">
-        <div class = "patent">
-          <div name = "patentSerialnumber" class = "patent-serialnumber">№2640844</div>
-          <div name = "patentName" class = "patent-name">
-            Способ спуска обсадной колонны в горизонтальном стволе большой протяженности
+    <div class = "row text-center animate-in" data-anim-type = "fade-in-up">
+      <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <a class = "seemore" href = "/patents">Увидеть больше <img class = "seemore-arrow" src = "assets/img/arr.png" /></a>
+      </div>
+    </div>
+    <!-- OVERLAY START -->
+    <div id = "overlay" class = "overlay hidden">
+      <div class = "overlay-close"><img id = "overlayClose" class = "overlay-close-image" src = "assets/img/cross.png" /></div>
+      <div class = "patent_detail">
+        <div id = "patentDetailImage" class = "patent_detail-image"></div>
+        <div class = "patent_detail-info">
+          <div id = "patentDetailSerialNumber" class = "patent_detail-serial_number"></div>
+          <div id = "patentDetailName" class = "patent_detail-name"></div>
+          <div id = "patentDetailDescription" class = "patent_detail-description"></div>
+          <div>
+            <a href = "#" class = "patent_detail-buy">КУПИТЬ</a>
           </div>
-          <div name = "patentImage" class = "patent-image"></div>
-        </div>
-        <div class = "text-center">
-          <button name = "patentIssue" class = "patent-issue">ОФОРМИТЬ ЗАЯВКУ</button>
         </div>
       </div>
     </div>
-    <div class = "col-xs-12 col-sm-4 col-md-4 col-lg-4">
-      <div class = "patent-section">
-        <div class = "patent">
-          <div name = "patentSerialnumber" class = "patent-serialnumber">№2640844</div>
-          <div name = "patentName" class = "patent-name">
-            Способ спуска обсадной колонны в горизонтальном стволе большой протяженности
-          </div>
-          <div name = "patentImage" class = "patent-image"></div>
-        </div>
-        <div class = "text-center">
-          <button name = "patentIssue" class = "patent-issue">ОФОРМИТЬ ЗАЯВКУ</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class = "row text-center animate-in" data-anim-type = "fade-in-up">
-    <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <a class = "seemore" href = "/patents">Увидеть больше <img class = "seemore-arrow" src = "assets/img/arr.png" /></a>
-    </div>
+    <!-- OVERLAY END -->
   </div>
 </div>
 <!-- PATENTS SECTION END -->
