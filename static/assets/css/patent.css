@@ -39,6 +39,7 @@
 .patent-image{
   height: 80%;
   border-radius: 6px;
+  margin-bottom: 21px;
 }
 
 .patent-issue{
@@ -133,6 +134,7 @@
   border: #288DCB 1px solid;
   padding: 10px 60px 10px 60px;
   transition: all 0.5s ease-in-out;
+  margin-top: 20px;
 }
 .patent_detail-buy:hover{
   background-color: rgb( 255, 255, 255 );
