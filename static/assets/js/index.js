@@ -18,7 +18,7 @@ function patentIssue( patent ){
 
   image.style.backgroundImage = `url( "assets/img/patents/${patent.id}.jpg" )`;
   image.style.backgroundRepeat = "no-repeat";
-  image.style.backgroundSize = "cover";
+  image.style.backgroundSize = "contain";
   image.style.backgroundPosition = "center center";
 
   document.querySelector( "#patentDetailSerialNumber" ).innerHTML = `№ ${patent.id}`;

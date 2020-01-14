@@ -37,7 +37,47 @@
     </div>
     <!--MENU SECTION END-->
     <!-- UPLOAD SECTION START-->
-    <div>
+    <div class = "upload">
+      <input
+        id = "imageInput"
+        type = "file"
+        accept = ".png, .jpg, .jped"
+        class = "hidden" />
+      <div>
+        <div class = "image">
+          <div id = "imageUnselected" class = "unselected">
+            <span>Добавить фотографию патента</span>
+            <img src = "assets/img/doc.png" />
+          </div>
+          <div id = "imageSelected" class = "selected hidden" style = "background-image: url( assets/img/patents/2640844.jpg )">
+            <div class = "actions">
+              <div>
+                <img id = "imageEdit" src = "assets/img/pencil.png" />
+              </div>
+              <div>
+                <img id = "imageDelete" src = "assets/img/cross1.png" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class = "info">
+          <div>
+            <span>Серийный номер</span>
+            <input id = "serialNumberInput" type = "text" placeholder = "Введите номер">
+          </div>
+          <div>
+            <span>Название патента</span>
+            <input id = "nameInput" type = "text" class = "name" placeholder = "Введите название патента">
+          </div>
+          <div class = "description">
+            <span>Документ</span>
+            <textarea id = "descriptionInput" placeholder = "Введите текст документа"></textarea>
+          </div>
+          <div>
+            <button>ЗАГРУЗИТЬ</button>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- UPLOAD SECTION END -->
 
@@ -59,6 +99,6 @@
     <script src="assets/js/animations.min.js"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
-    <script type = "text/javascript" src = "assets/js/login.js"></script>
+    <script type = "text/javascript" src = "assets/js/upload.js"></script>
   </body>
 </html>
