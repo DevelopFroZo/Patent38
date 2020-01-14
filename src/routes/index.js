@@ -15,5 +15,5 @@ module.exports = server => {
   server.get( "/upload", isLogged( true, "/login" ) );
 
   server.use( "/api/auth", auth );
-  server.use( "/api/patents", isLogged( true, "/login" ), patents );
+  server.use( "/api/patents", patents );
 };
