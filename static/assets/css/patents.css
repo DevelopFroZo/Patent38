@@ -1,0 +1,40 @@
+.navbar_custom_a{
+  color: #288DCB !important;
+  transition: all 0.5s ease-in-out;
+}
+
+.navbar_custom_a:hover{
+  color: rgb( 255, 255, 255 ) !important;
+}
+
+#search{
+  margin-top: 120px;
+}
+
+#patents{
+  margin-top: 80px;
+}
+
+.search{
+  display: flex;
+  background-color: rgb( 255, 255, 255, 0.5 );
+  padding: 13px 15px 13px 33px;
+  border: #288DCB 1px solid;
+}
+
+.search > input{
+  flex-grow: 1;
+  background: none;
+  border: none;
+  color: rgb( 255, 255, 255 );
+  font-family: "Ubuntu", sans-serif;
+  font-size: 16px;
+  outline: none;
+}
+.search > input::placeholder{
+  color: rgb( 255, 255, 255 );
+}
+
+.magnifier:hover{
+  cursor: pointer;
+}

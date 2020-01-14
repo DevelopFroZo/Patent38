@@ -16,7 +16,6 @@ async function navbarControl(){
 function patentIssue( patent ){
   const image = document.querySelector( "#patentDetailImage" );
 
-  console.log( patent );
   image.style.backgroundImage = `url( "assets/img/patents/${patent.id}.jpg" )`;
   image.style.backgroundRepeat = "no-repeat";
   image.style.backgroundSize = "cover";
