@@ -25,6 +25,7 @@ function patentIssue( patent ){
   document.querySelector( "#patentDetailName" ).innerHTML = patent.name;
   document.querySelector( "#patentDetailDescription" ).innerHTML = patent.description;
   document.querySelector( "#overlay" ).classList.remove( "hidden" );
+  document.body.style.overflow = "hidden";
 }
 
 function stub(){
@@ -74,6 +75,7 @@ async function index(){
     .querySelector( "#overlayClose" )
     .addEventListener( "click", () => {
       document.querySelector( "#overlay" ).classList.add( "hidden" );
+      document.body.style.overflow = "auto";
     } );
 }
 
