@@ -8,6 +8,7 @@ const session = require( "express-session" );
 const pgStoreConnect = require( "connect-pg-simple" );
 const compression = require( "compression" );
 const sirv = require( "sirv" );
+const nodemailer = require( "nodemailer" );
 
 // Configs
 require( "./configs/env" );
@@ -32,13 +33,13 @@ server.use(
     cookie: {
       httpOnly: true,
       maxAge: !dev ? parseInt( process.env.SESSION_COOKIE_MAXAGE ) : null,
-      secure: !dev
+      secure: !dev && process.env.SESSION_COOKIE_SECURE
     },
-    name: !dev ? process.env.SESSION_COOKIE_NAME : null,
+    name: !dev ? process.env.SESSION_NAME : null,
     resave: false,
     rolling: true,
     saveUninitialized: false,
-    secret: !dev ? process.env.SESSION_COOKIE_SECRET : "secret",
+    secret: !dev ? process.env.SESSION_SECRET : "secret",
     store: new pgStore( {
       pool: database.pool,
       tableName: process.env.SESSION_TABLE_NAME
@@ -52,6 +53,27 @@ server.use(
 // Some upgrade
 server.use( ( req, res, next ) => {
   req.database = database;
+
+  // #fix вынести в helper
+  if( dev ){
+    req.mail = nodemailer.createTransport( {
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      secure: process.env.EMAIL_SECURE,
+      auth: {
+        user: process.env.EMAIL_AUTH_USER,
+        pass: process.env.EMAIL_AUTH_PASS
+      }
+    } );
+    req.mail.send = ( to, subject, text, html ) => req.mail.sendMail( {
+      from: process.env.EMAIL_FROM,
+      to,
+      subject,
+      text,
+      html
+    } );
+  }
+
   res.success = ( code, data ) => res.json( database.success( code, data ) );
   res.error = code => res.json( database.error( code ) );
 

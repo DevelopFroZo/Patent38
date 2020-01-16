@@ -47,7 +47,6 @@ async function uploadButtonHandler(){
     method: "POST",
     body: formData
   } );
-  // #fix
   const jsn = await response.json();
 
   if( !jsn.ok ){

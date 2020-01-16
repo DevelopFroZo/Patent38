@@ -1,8 +1,26 @@
-async function fetchPatents(){
-  const response = await fetch( "api/patents/get" );
-  const patentsData = ( await response.json() ).data;
+let overlayOpened = false;
+
+function patentIssue( patent ){
+  const image = document.querySelector( "#patentDetailImage" );
+
+  image.style.backgroundImage = `url( "assets/img/patents/${patent.serial_number}.jpg" )`;
+  image.style.backgroundRepeat = "no-repeat";
+  image.style.backgroundSize = "contain";
+  image.style.backgroundPosition = "center center";
+
+  document.querySelector( "#patentDetailSerialNumber" ).innerHTML = `№ ${patent.serial_number}`;
+  document.querySelector( "#patentDetailName" ).innerHTML = patent.name;
+  document.querySelector( "#patentDetailDescription" ).innerHTML = patent.description;
+  document.querySelector( "#overlay" ).classList.remove( "hidden" );
+  document.body.style.overflow = "hidden";
+  overlayOpened = true;
+}
+
+function addPatentsToDOM( patentsData ){
   const patents = document.querySelector( "#patents" );
   let div, element;
+
+  patents.innerHTML = "";
 
   for( let i = 0; i < patentsData.length; i++ ){
     div = document.createElement( "div" );
@@ -24,8 +42,16 @@ async function fetchPatents(){
         </div>
       </div>
     `;
+    div.addEventListener( "click", () => patentIssue( patentsData[i] ) );
     patents.appendChild( div );
   }
+}
+
+async function fetchPatents(){
+  const response = await fetch( "api/patents/get" );
+  const patentsData = ( await response.json() ).data;
+
+  addPatentsToDOM( patentsData );
 }
 
 async function navbarControl(){
@@ -41,6 +67,23 @@ async function navbarControl(){
 
     uploadLi.classList.toggle( "hidden" );
   }
+}
+
+async function searchPatents(){
+  let search = document.querySelector( "#searchInput" ).value;
+
+  search = search.replace( /  +/g, " " ).replace( / /g, "|" );
+
+  const response = await fetch( `api/patents/get?search=${search}` );
+  const patentsData = ( await response.json() ).data;
+
+  addPatentsToDOM( patentsData );
+}
+
+function overlayClose(){
+  document.querySelector( "#overlay" ).classList.add( "hidden" );
+  document.body.style.overflow = "auto";
+  overlayOpened = false;
 }
 
 async function index(){
@@ -59,6 +102,19 @@ async function index(){
     searchContainer.style.backgroundColor = "rgba( 255, 255, 255, 0.5 )";
     magnifier.src = "assets/img/magnifier-unselected.png";
   } );
+  searchInput.addEventListener( "keydown", ( e ) => {
+    if( e.key === "Enter" ) searchPatents();
+    else if( e.key === "Escape" ){
+      searchInput.value = "";
+      searchPatents();
+    }
+  } );
+  magnifier.addEventListener( "click", searchPatents );
+
+  document
+    .querySelector( "#overlayClose" )
+    .addEventListener( "click", overlayClose );
+  document.body.addEventListener( "keydown", ( e ) => overlayOpened && e.key === "Escape" ? overlayClose() : null );
 }
 
 window.addEventListener( "load", index );

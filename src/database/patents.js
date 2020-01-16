@@ -23,6 +23,7 @@ module.exports = class extends Foundation{
     return false;
   }
 
+  // #fix add time
   async add( serialNumber, name, description ){
     try{
       await super.query(
@@ -31,7 +32,7 @@ module.exports = class extends Foundation{
         [ serialNumber, name, description ]
       );
 
-      return super.success( 3 );
+      return super.success();
     }
     catch( error ){
       console.log( error );
@@ -40,15 +41,61 @@ module.exports = class extends Foundation{
     }
   }
 
-  async get( count ){
+  async get( count, search ){
     try{
+      const limit = count > -1 ? "limit " + count : "";
+      let fulltextSearch;
+
+      if( search && search !== "" )
+        fulltextSearch = `where to_tsvector(
+          serial_number || ' ' ||
+          name || ' ' ||
+          description
+        ) @@ to_tsquery( '${search}' )`;
+
       const data = ( await super.query(
         `select *
         from patents
-        ${count > -1 ? "limit " + count : ""}`
+        ${fulltextSearch}
+        ${limit}`
       ) ).rows;
 
       return super.success( 0, data );
+    }
+    catch( error ){
+      console.log( error );
+
+      return super.error( 1 );
+    }
+  }
+
+  async delete( serialNumbers ){
+    try{
+      await super.query(
+        `delete from patents
+        where serial_number = ANY( $1::int[] )`,
+        [ serialNumbers ]
+      );
+
+      return super.success();
+    }
+    catch( error ){
+      console.log( error );
+
+      return super.error( 1 );
+    }
+  }
+
+  // #fix обновлять не всё, а только по требованию
+  async edit( serialNumber, name, description ){
+    try{
+      await super.query(
+        `update patents
+        set name = $1, description = $2
+        where serial_number = $3`
+      );
+
+      return super.success();
     }
     catch( error ){
       console.log( error );

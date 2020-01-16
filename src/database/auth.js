@@ -28,7 +28,7 @@ module.exports = class extends Foundation{
         hashAlgorithm: process.env.HASH_ALGORITHM
       } );
 
-      if( password_[0] === hash ) return super.success( 1 );
+      if( password_[0] === hash ) return super.success();
 
       return super.error( 3 );
     }

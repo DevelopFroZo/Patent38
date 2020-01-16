@@ -1,3 +1,5 @@
+let overlayOpened = false;
+
 function patentIssue( patent ){
   const image = document.querySelector( "#patentDetailImage" );
 
@@ -11,6 +13,7 @@ function patentIssue( patent ){
   document.querySelector( "#patentDetailDescription" ).innerHTML = patent.description;
   document.querySelector( "#overlay" ).classList.remove( "hidden" );
   document.body.style.overflow = "hidden";
+  overlayOpened = true;
 }
 
 // #fix
@@ -50,16 +53,38 @@ async function navbarControl(){
   }
 }
 
-async function index(){
+function overlayClose(){
+  document.querySelector( "#overlay" ).classList.add( "hidden" );
+  document.body.style.overflow = "auto";
+  overlayOpened = false;
+}
+
+// #fix пустые поля
+async function patentBuyHandler(){
+  const response = await fetch( "api/patents/buy/123456", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify( {
+      email: "some@email.example",
+      phone: "89999999999"
+    } )
+  } );
+  const jsn = await response.json();
+
+  console.log( jsn );
+}
+
+function index(){
   fetchPatents();
   navbarControl();
 
   document
     .querySelector( "#overlayClose" )
-    .addEventListener( "click", () => {
-      document.querySelector( "#overlay" ).classList.add( "hidden" );
-      document.body.style.overflow = "auto";
-    } );
+    .addEventListener( "click", overlayClose );
+  document.body.addEventListener( "keydown", ( e ) => overlayOpened && e.key === "Escape" ? overlayClose() : null );
+  document.querySelector( "#patentBuy" ).addEventListener( "click", patentBuyHandler );
 }
 
 window.addEventListener( "load", index );

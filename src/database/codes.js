@@ -2,9 +2,7 @@
 
 module.exports = {
   successes: {
-    0: "stub",
-    1: "Authorized",
-    2: "Patent add successfully"
+    0: "stub"
   },
   errors: {
     0: "stub",
@@ -14,6 +12,7 @@ module.exports = {
     4: "Image not sended",
     5: "Invalid serial number",
     6: "Patent already registered",
-    7: "Fail to upload file"
+    7: "Fail to upload file",
+    8: "Fail to delete patent"
   }
 };

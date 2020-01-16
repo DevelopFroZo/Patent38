@@ -28,6 +28,7 @@ async function signinButtonHandler(){
 
   const jsn = await response.json();
 
+  // #fix обработка ошибки
   console.log( jsn );
 }
 
