@@ -54,8 +54,8 @@ router.get( "/get", async ( req, res ) => {
 
   res.json( await req.database.patents.get(
     count,
-    req.query.search )
-  );
+    req.query.search
+  ) );
 } );
 
 // #fix добавить проверки
@@ -122,9 +122,10 @@ router.put(
 // #fix проверить на пустые поля
 // #fix ограничить по времени
 router.post( "/buy/:serialNumber", ( req, res ) => {
-  req.mail.send( "", "Покупка патента", `
+  req.mail.send( "frozo01@yandex.ru", "Покупка патента", `
     Запрос на покупку патента ${req.params.serialNumber}
     Контакты:
+    - Имя: ${req.body.name}
     - email: ${req.body.email}
     - телефон: ${req.body.phone}
   ` );

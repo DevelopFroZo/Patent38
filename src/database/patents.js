@@ -57,6 +57,7 @@ module.exports = class extends Foundation{
         `select *
         from patents
         ${fulltextSearch}
+        order by date desc
         ${limit}`
       ) ).rows;
 

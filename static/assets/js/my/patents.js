@@ -1,26 +1,8 @@
-let overlayOpened = false;
+let patentsCount = 0;
 
-function patentIssue( patent ){
-  const image = document.querySelector( "#patentDetailImage" );
-
-  image.style.backgroundImage = `url( "assets/img/patents/${patent.serial_number}.jpg" )`;
-  image.style.backgroundRepeat = "no-repeat";
-  image.style.backgroundSize = "contain";
-  image.style.backgroundPosition = "center center";
-
-  document.querySelector( "#patentDetailSerialNumber" ).innerHTML = `№ ${patent.serial_number}`;
-  document.querySelector( "#patentDetailName" ).innerHTML = patent.name;
-  document.querySelector( "#patentDetailDescription" ).innerHTML = patent.description;
-  document.querySelector( "#overlay" ).classList.remove( "hidden" );
-  document.body.style.overflow = "hidden";
-  overlayOpened = true;
-}
-
-function addPatentsToDOM( patentsData ){
+function addPatentsToDOM( patentsData, patentIssueForm ){
   const patents = document.querySelector( "#patents" );
   let div, element;
-
-  patents.innerHTML = "";
 
   for( let i = 0; i < patentsData.length; i++ ){
     div = document.createElement( "div" );
@@ -28,30 +10,28 @@ function addPatentsToDOM( patentsData ){
     div.innerHTML = `
       <div name = "patentSection" class = "patent-section">
         <div class = "patent">
-          <div name = "patentSerialNumber" class = "patent-serialnumber">${patentsData[i].serial_number}</div>
-          <div name = "patentName" class = "patent-name">${patentsData[i].name}</div>
-          <div name = "patentImage" class = "patent-image" style = "
-            background: url( 'assets/img/patents/${patentsData[i].serial_number}.jpg' );
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center center;
-          "></div>
+          <div name = "patentSerialNumber" class = "patent-serialnumber"></div>
+          <div name = "patentName" class = "patent-name"></div>
+          <div name = "patentImage" class = "patent-image"></div>
         </div>
         <div class = "text-center">
           <button class = "patent-issue">ОФОРМИТЬ ЗАЯВКУ</button>
         </div>
       </div>
     `;
-    div.addEventListener( "click", () => patentIssue( patentsData[i] ) );
     patents.appendChild( div );
+
+    fillPatent( patentsData, patentsCount, patentIssueForm );
+    patentsCount++;
   }
 }
 
-async function fetchPatents(){
+// #fix грузить по частям
+async function fetchPatents( patentIssueForm ){
   const response = await fetch( "api/patents/get" );
   const patentsData = ( await response.json() ).data;
 
-  addPatentsToDOM( patentsData );
+  addPatentsToDOM( patentsData, patentIssueForm );
 }
 
 async function navbarControl(){
@@ -69,52 +49,49 @@ async function navbarControl(){
   }
 }
 
-async function searchPatents(){
+async function searchPatents( patentIssueForm ){
   let search = document.querySelector( "#searchInput" ).value;
 
+  document.querySelector( "#patents" ).innerHTML = "";
+  patentsCount = 0;
   search = search.replace( /  +/g, " " ).replace( / /g, "|" );
 
   const response = await fetch( `api/patents/get?search=${search}` );
   const patentsData = ( await response.json() ).data;
 
-  addPatentsToDOM( patentsData );
-}
-
-function overlayClose(){
-  document.querySelector( "#overlay" ).classList.add( "hidden" );
-  document.body.style.overflow = "auto";
-  overlayOpened = false;
+  addPatentsToDOM( patentsData, patentIssueForm );
 }
 
 async function index(){
-  fetchPatents();
-  navbarControl();
-
+  const overlay = new Overlay( document.querySelector( "#overlay" ), document.querySelector( "#overlayClose" ) );
+  const patentIssueForm = new PatentIssueForm( overlay );
   const searchInput = document.querySelector( "#searchInput" );
   const searchContainer = document.querySelector( "#searchContainer" );
   const magnifier = document.querySelector( "#magnifier" );
+
+  fetchPatents( patentIssueForm );
+  navbarControl();
 
   searchInput.addEventListener( "focus", () => {
     searchContainer.style.backgroundColor = "rgba( 255, 255, 255, 0.28 )";
     magnifier.src = "assets/img/magnifier-selected.png";
   } );
+
   searchInput.addEventListener( "blur", () => {
     searchContainer.style.backgroundColor = "rgba( 255, 255, 255, 0.5 )";
     magnifier.src = "assets/img/magnifier-unselected.png";
   } );
+
   searchInput.addEventListener( "keydown", ( e ) => {
-    if( e.key === "Enter" ) searchPatents();
+    if( e.key === "Enter" ) searchPatents( patentIssueForm );
     else if( e.key === "Escape" ){
       searchInput.value = "";
-      searchPatents();
+      searchPatents( patentIssueForm );
     }
   } );
-  magnifier.addEventListener( "click", searchPatents );
 
-  document
-    .querySelector( "#overlayClose" )
-    .addEventListener( "click", overlayClose );
-  document.body.addEventListener( "keydown", ( e ) => overlayOpened && e.key === "Escape" ? overlayClose() : null );
+  magnifier.addEventListener( "click", searchPatents );
+  document.body.addEventListener( "keydown", ( e ) => overlay.closeByEscape( e ) );
 }
 
 window.addEventListener( "load", index );
