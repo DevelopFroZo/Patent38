@@ -122,7 +122,7 @@ router.put(
 // #fix проверить на пустые поля
 // #fix ограничить по времени
 router.post( "/buy/:serialNumber", ( req, res ) => {
-  req.mail.send( "frozo01@yandex.ru", "Покупка патента", `
+  req.mail.send( "", "Покупка патента", `
     Запрос на покупку патента ${req.params.serialNumber}
     Контакты:
     - Имя: ${req.body.name}
