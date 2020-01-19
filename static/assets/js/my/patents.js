@@ -191,6 +191,9 @@ async function editPatent( overlay ){
       patentImg.style.backgroundPosition = "center center";
     }
 
+    currentPatent.name = name.value;
+    currentPatent.description = description.value;
+
     imageInput.value = "";
     imageInput.dispatchEvent( new Event( "change" ) );
     name.value = "";

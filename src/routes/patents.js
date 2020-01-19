@@ -92,7 +92,6 @@ router.put(
   async ( req, res ) => {
     const serialNumber = parseInt( req.params.serialNumber );
     let errorCode = false;
-    let returned = false;
 
     if( isNaN( serialNumber ) || typeof serialNumber !== "number" ) return res.error( 5 );
 
@@ -100,15 +99,12 @@ router.put(
 
     // #fix promisify
     if( req.file !== undefined )
-      fs.writeFile( `static/assets/img/patents/${serialNumber}.jpg`, req.file.buffer, async err => {
+      return fs.writeFile( `static/assets/img/patents/${serialNumber}.jpg`, req.file.buffer, async err => {
         if( err )
           return res.error( 7 );
 
-        returned = true;
-        return res.json( await req.database.patents.edit( serialNumber, req.body.name, req.body.description ) );
+        res.json( await req.database.patents.edit( serialNumber, req.body.name, req.body.description ) );
       } );
-
-    if( returned ) return;
 
     res.json( await req.database.patents.edit( serialNumber, req.body.name, req.body.description ) );
   }
