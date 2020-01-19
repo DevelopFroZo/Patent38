@@ -64,7 +64,6 @@ router.get( "/get", async ( req, res ) => {
 router.delete(
   "/delete",
   isLogged( true ),
-  upload.single( "image" ),
   async ( req, res ) => {
     const response = await req.database.patents.delete( req.body.serialNumbers );
     let len = req.body.serialNumbers.length;

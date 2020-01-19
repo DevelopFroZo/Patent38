@@ -1,24 +1,80 @@
+let isLogged = false;
 let patentsCount = 0;
+
+async function deletePatent( column, serialNumber ){
+  const isConfirmed = confirm( `Вы точно хотите удалить патент №${serialNumber}?` );
+
+  if( !isConfirmed ) return;
+
+  const response = await fetch( "/api/patents/delete", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify( {
+      serialNumbers: [ serialNumber ]
+    } )
+  } );
+  const jsn = await response.json();
+
+  if( !jsn.ok )
+    return alert( "Ошибка. Невозможно удалить патент" );
+
+  document.querySelector( "#patents" ).removeChild( column );
+}
 
 function addPatentsToDOM( patentsData, patentIssueForm ){
   const patents = document.querySelector( "#patents" );
-  let div, element;
 
   for( let i = 0; i < patentsData.length; i++ ){
-    div = document.createElement( "div" );
-    div.className = "col-xs-12 col-sm-6 col-md-6 col-lg-4";
-    div.innerHTML = `
-      <div name = "patentSection" class = "patent-section">
-        <div class = "patent">
-          <div name = "patentSerialNumber" class = "patent-serialnumber"></div>
-          <div name = "patentName" class = "patent-name"></div>
-          <div name = "patentImage" class = "patent-image"></div>
-        </div>
-        <div class = "text-center">
-          <button class = "patent-issue">ОФОРМИТЬ ЗАЯВКУ</button>
-        </div>
+    let toolbar = document.createElement( "div" );
+    toolbar.classList.add( "toolbar" );
+    toolbar.classList.add( "toolbar-hidden" );
+
+    let div = document.createElement( "div" );
+    let img = document.createElement( "img" );
+    img.setAttribute( "src", "assets/img/pencil.png" );
+    div.appendChild( img );
+    div.addEventListener( "click", () => {} );
+    toolbar.appendChild( div );
+
+    let divCross = document.createElement( "div" );
+    img = document.createElement( "img" );
+    img.setAttribute( "src", "assets/img/cross1.png" );
+    divCross.appendChild( img );
+    toolbar.appendChild( divCross );
+
+    let patentSection = document.createElement( "div" );
+    patentSection.setAttribute( "name", "patentSection" );
+    patentSection.className = "patent-section";
+    patentSection.innerHTML = `
+      <div class = "patent">
+        <div name = "patentSerialNumber" class = "patent-serialnumber"></div>
+        <div name = "patentName" class = "patent-name"></div>
+        <div name = "patentImage" class = "patent-image"></div>
+      </div>
+      <div class = "text-center">
+        <button class = "patent-issue">ОФОРМИТЬ ЗАЯВКУ</button>
       </div>
     `;
+
+    div = document.createElement( "div" );
+    divCross.addEventListener( "click", () => {
+      deletePatent( div, patentsData[i].serial_number );
+    } );
+    div.className = "col-xs-12 col-sm-6 col-md-6 col-lg-4";
+    div.appendChild( toolbar );
+    div.appendChild( patentSection );
+
+    if( isLogged ){
+      div.addEventListener( "mouseover", () => {
+        toolbar.classList.remove( "toolbar-hidden" )
+      } );
+      div.addEventListener( "mouseout", () => {
+        toolbar.classList.add( "toolbar-hidden" )
+      } );
+    }
+
     patents.appendChild( div );
 
     fillPatent( patentsData, patentsCount, patentIssueForm );
@@ -36,7 +92,7 @@ async function fetchPatents( patentIssueForm ){
 
 async function navbarControl(){
   const response = await fetch( "api/auth/isLogged" );
-  const isLogged = ( await response.json() ).data;
+  isLogged = ( await response.json() ).data;
 
   const authLink = document.querySelector( "#authLink" );
   const uploadLi = document.querySelector( "#uploadLi" );
@@ -69,8 +125,8 @@ async function index(){
   const searchContainer = document.querySelector( "#searchContainer" );
   const magnifier = document.querySelector( "#magnifier" );
 
+  await navbarControl();
   fetchPatents( patentIssueForm );
-  navbarControl();
 
   searchInput.addEventListener( "focus", () => {
     searchContainer.style.backgroundColor = "rgba( 255, 255, 255, 0.28 )";

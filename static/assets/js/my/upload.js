@@ -77,11 +77,11 @@ function index(){
   uploadImageZoneHack();
 
   document
-    .querySelector( "#imageEdit" )
+    .querySelector( "#toolbarPencil" )
     .addEventListener( "click", () => imageInput.click() );
 
   document
-    .querySelector( "#imageDelete" )
+    .querySelector( "#toolbarCross" )
     .addEventListener( "click", () => {
       imageInput.value = "";
       imageInput.dispatchEvent( new Event( "change" ) );

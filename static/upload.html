@@ -15,8 +15,9 @@
     <!-- BOOTSTRAP CORE CSS -->
     <link rel = "stylesheet" type = "text/css" href = "assets/css/bootstrap.css" />
     <!-- CUSTOM CSS -->
-    <link rel = "stylesheet" ензу = "text/css" href = "assets/css/style-blue.css" />
-    <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/upload.css" />
+    <link rel = "stylesheet" type = "text/css" href = "assets/css/style-blue.css" />
+    <link rel = "stylesheet" type = "text/css" href = "assets/css/my/toolbar.css" />
+    <link rel = "stylesheet" type = "text/css" href = "assets/css/my/upload.css" />
 
     <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,25 +46,21 @@
     <!--MENU SECTION END-->
     <!-- UPLOAD SECTION START-->
     <div class = "upload">
-      <input
-        id = "imageInput"
-        type = "file"
-        accept = ".png, .jpg, .jped"
-        class = "hidden" />
       <div>
+        <input
+          id = "imageInput"
+          type = "file"
+          accept = ".png, .jpg, .jped"
+          class = "hidden" />
         <div class = "image">
           <div id = "imageUnselected" class = "unselected">
             <span>Добавить фотографию патента</span>
             <img src = "assets/img/doc.png" />
           </div>
           <div id = "imageSelected" class = "selected hidden">
-            <div class = "actions">
-              <div>
-                <img id = "imageEdit" src = "assets/img/pencil.png" />
-              </div>
-              <div>
-                <img id = "imageDelete" src = "assets/img/cross1.png" />
-              </div>
+            <div class = "toolbar">
+              <div id = "toolbarPencil"><img src = "assets/img/pencil.png" /></div>
+              <div id = "toolbarCross"><img src = "assets/img/cross1.png" /></div>
             </div>
           </div>
         </div>

@@ -38,3 +38,11 @@
 .magnifier:hover{
   cursor: pointer;
 }
+
+.toolbar-hidden > div{
+  display: none;
+}
+
+.patent-section{
+  margin-top: -25px;
+}
