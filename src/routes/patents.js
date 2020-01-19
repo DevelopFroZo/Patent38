@@ -88,33 +88,29 @@ router.delete(
 router.put(
   "/put/:serialNumber",
   isLogged( true ),
+  upload.single( "image" ),
   async ( req, res ) => {
     const serialNumber = parseInt( req.params.serialNumber );
     let errorCode = false;
+    let returned = false;
 
-    if( req.file === undefined ) errorCode = 4;
-    else if( isNaN( serialNumber ) || typeof serialNumber !== "number" ) errorCode = 5;
-
-    if( !errorCode ) await req.database.patents.check( serialNumber ) ? errorCode = 6 : null;
+    if( isNaN( serialNumber ) || typeof serialNumber !== "number" ) return res.error( 5 );
 
     // #fix add check types of image & size
 
-    if( errorCode ){
-      res.error( errorCode );
-
-      return;
-    }
-
     // #fix promisify
-    fs.writeFile( `static/assets/img/patents/${serialNumber}.jpg`, req.file.buffer, async ( err ) => {
-      if( err ){
-        res.error( 7 );
+    if( req.file !== undefined )
+      fs.writeFile( `static/assets/img/patents/${serialNumber}.jpg`, req.file.buffer, async err => {
+        if( err )
+          return res.error( 7 );
 
-        return;
-      }
+        returned = true;
+        return res.json( await req.database.patents.edit( serialNumber, req.body.name, req.body.description ) );
+      } );
 
-      res.json( await req.database.patents.edit( serialNumber, req.body.name, req.body.description ) );
-    } );
+    if( returned ) return;
+
+    res.json( await req.database.patents.edit( serialNumber, req.body.name, req.body.description ) );
   }
 );
 

@@ -1,4 +1,4 @@
-.upload{
+.upload-container{
   position: relative;
   height: 100vh;
   display: flex;
@@ -6,7 +6,7 @@
   align-items: center;
 }
 
-.upload > div{
+.upload{
   width: 60%;
   height: 65%;
   display: flex;

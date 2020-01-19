@@ -1,5 +1,6 @@
 let isLogged = false;
 let patentsCount = 0;
+let currentPatent, currentPatentIndex;
 
 async function deletePatent( column, serialNumber ){
   const isConfirmed = confirm( `Вы точно хотите удалить патент №${serialNumber}?` );
@@ -23,6 +24,26 @@ async function deletePatent( column, serialNumber ){
   document.querySelector( "#patents" ).removeChild( column );
 }
 
+function openEditForm( overlay ){
+  const imageSelected = document.querySelector( "#imageSelected" );
+
+  document.querySelector( "#imageUnselected" ).classList.add( "hidden" );
+  imageSelected.classList.remove( "hidden" );
+  document.querySelector( "#patentDetail" ).classList.add( "hidden" );
+  document.querySelector( "#patentEdit" ).classList.remove( "hidden" );
+
+  imageSelected.style.backgroundImage = `url( assets/img/patents/${currentPatent.serial_number}.jpg )`;
+  imageSelected.style.backgroundRepeat = "no-repeat";
+  imageSelected.style.backgroundSize = "contain";
+  imageSelected.style.backgroundPosition = "center center";
+
+  document.querySelector( "#serialNumberInput" ).value = currentPatent.serial_number;
+  document.querySelector( "#nameInput" ).value = currentPatent.name;
+  document.querySelector( "#descriptionInput" ).value = currentPatent.description;
+
+  overlay.open();
+}
+
 function addPatentsToDOM( patentsData, patentIssueForm ){
   const patents = document.querySelector( "#patents" );
 
@@ -35,7 +56,11 @@ function addPatentsToDOM( patentsData, patentIssueForm ){
     let img = document.createElement( "img" );
     img.setAttribute( "src", "assets/img/pencil.png" );
     div.appendChild( img );
-    div.addEventListener( "click", () => {} );
+    div.addEventListener( "click", () => {
+      currentPatent = patentsData[i];
+      currentPatentIndex = i;
+      openEditForm( patentIssueForm.overlay );
+    } );
     toolbar.appendChild( div );
 
     let divCross = document.createElement( "div" );
@@ -79,6 +104,13 @@ function addPatentsToDOM( patentsData, patentIssueForm ){
 
     fillPatent( patentsData, patentsCount, patentIssueForm );
     patentsCount++;
+
+    document
+      .getElementsByName( "patentSection" )[i]
+      .addEventListener( "click", () => {
+        document.querySelector( "#patentDetail" ).classList.remove( "hidden" );
+        document.querySelector( "#patentEdit" ).classList.add( "hidden" );
+      } );
   }
 }
 
@@ -118,12 +150,66 @@ async function searchPatents( patentIssueForm ){
   addPatentsToDOM( patentsData, patentIssueForm );
 }
 
+async function editPatent( overlay ){
+  const name = document.querySelector( "#nameInput" );
+  const image = document.querySelector( "#imageInput" );
+  const description = document.querySelector( "#descriptionInput" );
+  const formData = new FormData();
+  let error;
+
+  // #fix пустые значения
+
+  formData.append( "serialNumber", parseInt( currentPatent.serial_number ) );
+  formData.append( "name", name.value );
+  formData.append( "image", image.files[0] );
+  formData.append( "description", description.value );
+
+  const response = await fetch( `api/patents/put/${currentPatent.serial_number}`, {
+    method: "PUT",
+    body: formData
+  } );
+  const jsn = await response.json();
+
+  if( !jsn.ok ){
+    switch( jsn.code ){
+      case 1: error = "Проблема с базой данных"; break;
+      case 5: error = "Неверный номер патента"; break;
+      case 7: error = "Проблема с добавлением изображения"; break;
+    }
+
+    alert( `Ошибка. ${error}` );
+  }
+  else {
+    document.getElementsByName( "patentName" )[ currentPatentIndex ].innerHTML = name.value;
+
+    if( image.files[0] ){
+      const patentImg = document.getElementsByName( "patentImage" )[ currentPatentIndex ];
+
+      patentImg.style.backgroundImage = `url( ${URL.createObjectURL( image.files[0] )} )`;
+      patentImg.style.backgroundRepeat = "no-repeat";
+      patentImg.style.backgroundSize = "contain";
+      patentImg.style.backgroundPosition = "center center";
+    }
+
+    imageInput.value = "";
+    imageInput.dispatchEvent( new Event( "change" ) );
+    name.value = "";
+    description.value = "";
+
+    alert( `Патент ${currentPatent.serial_number} успешно изменён!` );
+
+    overlay.close();
+  }
+}
+
 async function index(){
   const overlay = new Overlay( document.querySelector( "#overlay" ), document.querySelector( "#overlayClose" ) );
   const patentIssueForm = new PatentIssueForm( overlay );
   const searchInput = document.querySelector( "#searchInput" );
   const searchContainer = document.querySelector( "#searchContainer" );
   const magnifier = document.querySelector( "#magnifier" );
+
+  uploadControl( () => editPatent( overlay ) );
 
   await navbarControl();
   fetchPatents( patentIssueForm );
@@ -148,6 +234,8 @@ async function index(){
 
   magnifier.addEventListener( "click", searchPatents );
   document.body.addEventListener( "keydown", ( e ) => overlay.closeByEscape( e ) );
+  document.querySelector( "#toolbarPencil" ).addEventListener( "click", () => deletePatent = true );
+  document.querySelector( "#toolbarCross" ).addEventListener( "click", () => deletePatent = true );
 }
 
 window.addEventListener( "load", index );

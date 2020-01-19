@@ -18,6 +18,7 @@
     <link rel = "stylesheet" ензу = "text/css" href = "assets/css/style-blue.css" />
     <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/overlay.css" />
     <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/toolbar.css" />
+    <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/upload.css" />
     <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/patentCard.css" />
     <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/patents.css" />
 
@@ -100,28 +101,28 @@
             </div>
           </div>
         </div>
-        <!-- <div id = "patentEdit">
+        <div id = "patentEdit" class = "upload hidden">
           <input
             id = "imageInput"
             type = "file"
             accept = ".png, .jpg, .jped"
             class = "hidden" />
           <div class = "image">
-            <div id = "imageUnselected" class = "unselected">
+            <div id = "imageUnselected" class = "unselected hidden">
               <span>Добавить фотографию патента</span>
               <img src = "assets/img/doc.png" />
             </div>
-            <div id = "imageSelected" class = "selected hidden">
+            <div id = "imageSelected" class = "selected">
               <div class = "toolbar">
-                <div id = "patentEditToolbarPencil"><img src = "assets/img/pencil.png" /></div>
-                <div id = "patentEditToolbarCross"><img src = "assets/img/cross1.png" /></div>
+                <div id = "toolbarPencil"><img src = "assets/img/pencil.png" /></div>
+                <div id = "toolbarCross"><img src = "assets/img/cross1.png" /></div>
               </div>
             </div>
           </div>
           <div class = "info">
             <div>
               <span>Серийный номер</span>
-              <input id = "serialNumberInput" type = "text" placeholder = "Введите номер" />
+              <input id = "serialNumberInput" type = "text" disabled />
             </div>
             <div>
               <span>Название патента</span>
@@ -132,10 +133,10 @@
               <textarea id = "descriptionInput" placeholder = "Введите текст документа"></textarea>
             </div>
             <div>
-              <button id = "uploadButton">ЗАГРУЗИТЬ</button>
+              <button id = "uploadButton">СОХРАНИТЬ</button>
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
     <!-- PATENTS SECTION END -->
@@ -159,6 +160,7 @@
     <!-- HELPERS -->
     <script type = "text/javascript" src = "assets/js/my/helpers/overlay.js"></script>
     <script type = "text/javascript" src = "assets/js/my/helpers/patentControl.js"></script>
+    <script type = "text/javascript" src = "assets/js/my/helpers/uploadControl.js"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
     <script type = "text/javascript" src = "assets/js/my/patents.js"></script>

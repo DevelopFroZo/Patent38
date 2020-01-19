@@ -93,7 +93,8 @@ module.exports = class extends Foundation{
       await super.query(
         `update patents
         set name = $1, description = $2
-        where serial_number = $3`
+        where serial_number = $3`,
+        [ name, description, serialNumber ]
       );
 
       return super.success();
