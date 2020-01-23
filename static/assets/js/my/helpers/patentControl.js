@@ -1,10 +1,9 @@
 class PatentIssueForm{
-  constructor( overlay ){
+  constructor(){
     this.image = document.querySelector( "#patentDetailImage" );
     this.serialNumber = document.querySelector( "#patentDetailSerialNumber" );
     this.name = document.querySelector( "#patentDetailName" );
     this.description = document.querySelector( "#patentDetailDescription" );
-    this.overlay = overlay;
 
     this.patentDetail = document.querySelector( "#patentDetail" );
     this.contacts = document.querySelector( "#patentContacts" );
@@ -14,14 +13,11 @@ class PatentIssueForm{
     this.contactPhone = document.querySelector( "#contactPhone" );
     this.contactsPersonal = document.querySelector( "#contactsPersonal" );
 
-    document.querySelector( "#patentBuy" ).addEventListener( "click", () => this.openIssue() );
-    document.querySelector( "#patentIssueFormClose" ).addEventListener( "click", () => this.closeIssue() );
-
     this.contactsPersonal.addEventListener( "change", ( e ) => this.issueToggle( e ) );
     this.issue_.addEventListener( "click", () => this.issue() );
   }
 
-  clearIssue(){
+  clear(){
     this.contactName.value = "";
     this.contactEmail.value = "";
     this.contactPhone.value = "";
@@ -29,16 +25,6 @@ class PatentIssueForm{
     this.issue_.classList.add( "disabled" );
     this.issue_.classList.remove( "enabled" );
     this.issue_.disabled = true;
-  }
-
-  openIssue(){
-    this.patentDetail.classList.add( "hidden" );
-    this.contacts.classList.remove( "hidden" );
-  }
-
-  closeIssue(){
-    this.patentDetail.classList.remove( "hidden" );
-    this.contacts.classList.add( "hidden" );
   }
 
   issueToggle( e ){
@@ -53,20 +39,17 @@ class PatentIssueForm{
     this.issue_.disabled = !e.target.checked;
   }
 
-  open( patent ){
-    this.clearIssue();
+  fill( patent ){
     this.patent = patent;
 
     this.image.style.backgroundImage = `url( "assets/img/patents/${patent.serial_number}.jpg" )`;
     this.image.style.backgroundRepeat = "no-repeat";
-    this.image.style.backgroundSize = "contain";
+    this.image.style.backgroundSize = "cover";
     this.image.style.backgroundPosition = "center center";
 
     this.serialNumber.innerHTML = `№ ${patent.serial_number}`;
     this.name.innerHTML = patent.name;
     this.description.innerHTML = patent.description;
-
-    this.overlay.open();
   }
 
   async issue(){
@@ -87,23 +70,59 @@ class PatentIssueForm{
     if( !jsn.ok ) alert( `Ошибка. ${jsn.data}` );
     else{
       alert( "Заявка на оформление патента отпраавлена!" );
-      this.closeIssue();
-      this.overlay.close();
+
+      this.contacts.dispatchEvent( new Event( "success" ) );
     }
+  }
+
+  on( e, handler ){
+    this.contacts.addEventListener( e, handler );
   }
 }
 
-function fillPatent( patents, i, patentIssueForm ){
-  document.getElementsByName( "patentSerialNumber" )[i].innerHTML = `№ ${patents[i].serial_number}`;
-  document.getElementsByName( "patentName" )[i].innerHTML = patents[i].name;
+function createPatent( patent ){
+  const structure = {};
+  let element;
 
-  image = document.getElementsByName( "patentImage" )[i];
-  image.style.backgroundImage = `url( "assets/img/patents/${patents[i].serial_number}.jpg" )`;
-  image.style.backgroundRepeat = "no-repeat";
-  image.style.backgroundSize = "cover";
-  image.style.backgroundPosition = "center center";
+  structure.column = document.createElement( "div" );
+  structure.column.className = "col-xs-12 col-sm-6 col-md-6 col-lg-4";
 
-  document
-    .getElementsByName( "patentSection" )[i]
-    .addEventListener( "click", () => patentIssueForm.open( patents[i] ) );
+  structure.patentSection = document.createElement( "div" );
+  structure.patentSection.className = "patent-section";
+  structure.column.appendChild( structure.patentSection );
+
+  structure.patent = document.createElement( "div" );
+  structure.patent.className = "patent";
+  structure.patentSection.appendChild( structure.patent );
+
+  element = document.createElement( "div" );
+  element.className = "patent-serialnumber";
+  element.innerHTML = `№ ${patent.serial_number}`;
+  structure.patent.appendChild( element );
+
+  element = document.createElement( "div" );
+  element.className = "patent-name";
+  element.setAttribute( "name", "patentName" );
+  element.innerHTML = patent.name;
+  structure.patent.appendChild( element );
+
+  element = document.createElement( "div" );
+  element.className = "patent-image";
+  element.setAttribute( "name", "patentImage" );
+  element.style.backgroundImage = `url( "assets/img/patents/${patent.serial_number}.jpg" )`;
+  element.style.backgroundRepeat = "no-repeat";
+  element.style.backgroundSize = "cover";
+  element.style.backgroundPosition = "center center";
+  structure.patent.appendChild( element );
+
+  structure.textCenter = document.createElement( "div" );
+  structure.textCenter.className = "text-center";
+  structure.patentSection.appendChild( structure.textCenter );
+
+  element = document.createElement( "button" );
+  element.className = "patent-issue";
+  element.innerHTML = "ОФОРМИТЬ ЗАЯВКУ";
+  structure.textCenter.appendChild( element );
+
+  return structure.column;
 }

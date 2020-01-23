@@ -16,11 +16,11 @@
     <link rel = "stylesheet" type = "text/css" href = "assets/css/bootstrap.css" />
     <!-- CUSTOM CSS -->
     <link rel = "stylesheet" ензу = "text/css" href = "assets/css/style-blue.css" />
-    <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/overlay.css" />
-    <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/toolbar.css" />
-    <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/upload.css" />
-    <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/patentCard.css" />
+    <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/overlay.css" />
+    <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/desk.css" />
+    <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/patentControl.css" />
     <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/patents.css" />
+    <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/upload.css" />
 
     <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -64,80 +64,81 @@
     <!-- SEARCH SECTION END -->
     <!-- PATENTS SECTION START-->
     <div class = "container">
-      <!-- #fix Add stub -->
-      <div id = "patents" class = "row animate-in" data-anim-type = "fade-in-up"></div>
-      <div id = "overlay" class = "overlay hidden">
-        <div id = "patentDetail">
-          <div class = "overlay-close"><img id = "overlayClose" class = "overlay-close-image" src = "assets/img/cross.png" /></div>
-          <div class = "patent_detail">
-            <div id = "patentDetailImage" class = "patent_detail-image"></div>
-            <div class = "patent_detail-info">
-              <div id = "patentDetailSerialNumber" class = "patent_detail-serial_number"></div>
-              <div id = "patentDetailName" class = "patent_detail-name"></div>
-              <div id = "patentDetailDescription" class = "patent_detail-description"></div>
+      <div id = "patentsRow" class = "row animate-in" data-anim-type = "fade-in-up"></div>
+      <overlay data-id = "overlay">
+        <desk id = "patentDetail" data-id = "patentDetail" class = "desk">
+          <div class = "dclose"><img src = "assets/img/cross.png" /></div>
+          <div class = "dcontainer">
+            <div class = "patent_detail">
+              <div id = "patentDetailImage" class = "patent_detail-image"></div>
+              <div class = "patent_detail-info">
+                <div id = "patentDetailSerialNumber" class = "patent_detail-serial_number"></div>
+                <div id = "patentDetailName" class = "patent_detail-name"></div>
+                <div id = "patentDetailDescription" class = "patent_detail-description"></div>
+                <div>
+                  <button id = "patentBuy" class = "patent_detail-buy">КУПИТЬ</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </desk>
+        <desk id = "patentContacts" data-id = "patentContacts" class = "desk">
+          <div class = "dclose"><img src = "assets/img/cross.png" /></div>
+          <div class = "dcontainer">
+            <div class = "patent_contacts">
+              <div class = "inline-block">
+                <div class = "header">
+                  <h3>ОФОРМЛЕНИЕ ЗАЯВКИ НА ПАТЕНТ</h3>
+                  <hr />
+                </div>
+                <div class = "help">Оставьте Ваши контакты и наш специалист свяжется с Вами</div>
+                <div><input id = "contactName" type = "text" placeholder = "Имя" /></div>
+                <div><input id = "contactEmail" type = "text" placeholder = "Почта" /></div>
+                <div><input id = "contactPhone" type = "text" placeholder = "Телефон" /></div>
+                <div class = "personal">
+                  <input type = "checkbox" id = "contactsPersonal">
+                  <label for = "contactsPersonal">Согласен на обработку персональных данных</label>
+                </div>
+                <div><button id = "issue" class = "disabled" disabled>ОСТАВИТЬ ЗАЯВКУ</button></div>
+              </div>
+            </div>
+          </div>
+        </desk>
+        <desk id = "upload" data-id = "upload" class = "desk">
+          <div class = "dclose"><img src = "assets/img/cross.png" /></div>
+          <dcontainer class = "dcontainer upload">
+            <input
+              id = "imageInput"
+              type = "file"
+              accept = ".png, .jpg, .jped"
+              class = "hidden" />
+            <div class = "image">
+              <div id = "imageUnselected" class = "unselected hidden">
+                <span>Добавить фотографию патента</span>
+                <img src = "assets/img/doc.png" />
+              </div>
+              <div id = "imageSelected" class = "selected"></div>
+            </div>
+            <div class = "info">
               <div>
-                <button id = "patentBuy" class = "patent_detail-buy">КУПИТЬ</button>
+                <span>Серийный номер</span>
+                <input id = "serialNumberInput" type = "text" disabled />
+              </div>
+              <div>
+                <span>Название патента</span>
+                <input id = "nameInput" type = "text" class = "name" placeholder = "Введите название патента" />
+              </div>
+              <div class = "description">
+                <span>Документ</span>
+                <textarea id = "descriptionInput" placeholder = "Введите текст документа"></textarea>
+              </div>
+              <div>
+                <button id = "uploadButton">СОХРАНИТЬ</button>
               </div>
             </div>
-          </div>
-        </div>
-        <div id = "patentContacts" class = "hidden">
-          <div class = "overlay-close"><img id = "patentIssueFormClose" class = "overlay-close-image" src = "assets/img/cross.png" /></div>
-          <div class = "patent_contacts">
-            <div class = "inline-block">
-              <div class = "header">
-                <h3>ОФОРМЛЕНИЕ ЗАЯВКИ НА ПАТЕНТ</h3>
-                <hr />
-              </div>
-              <div class = "help">Оставьте Ваши контакты и наш специалист свяжется с Вами</div>
-              <div><input id = "contactName" type = "text" placeholder = "Имя" /></div>
-              <div><input id = "contactEmail" type = "text" placeholder = "Почта" /></div>
-              <div><input id = "contactPhone" type = "text" placeholder = "Телефон" /></div>
-              <div class = "personal">
-                <input type = "checkbox" id = "contactsPersonal">
-                <label for = "contactsPersonal">Согласен на обработку персональных данных</label>
-              </div>
-              <div><button id = "issue" class = "disabled" disabled>ОСТАВИТЬ ЗАЯВКУ</button></div>
-            </div>
-          </div>
-        </div>
-        <div id = "patentEdit" class = "upload hidden">
-          <input
-            id = "imageInput"
-            type = "file"
-            accept = ".png, .jpg, .jped"
-            class = "hidden" />
-          <div class = "image">
-            <div id = "imageUnselected" class = "unselected hidden">
-              <span>Добавить фотографию патента</span>
-              <img src = "assets/img/doc.png" />
-            </div>
-            <div id = "imageSelected" class = "selected">
-              <div class = "toolbar">
-                <div id = "toolbarPencil"><img src = "assets/img/pencil.png" /></div>
-                <div id = "toolbarCross"><img src = "assets/img/cross1.png" /></div>
-              </div>
-            </div>
-          </div>
-          <div class = "info">
-            <div>
-              <span>Серийный номер</span>
-              <input id = "serialNumberInput" type = "text" disabled />
-            </div>
-            <div>
-              <span>Название патента</span>
-              <input id = "nameInput" type = "text" class = "name" placeholder = "Введите название патента" />
-            </div>
-            <div class = "description">
-              <span>Документ</span>
-              <textarea id = "descriptionInput" placeholder = "Введите текст документа"></textarea>
-            </div>
-            <div>
-              <button id = "uploadButton">СОХРАНИТЬ</button>
-            </div>
-          </div>
-        </div>
-      </div>
+          </dcontainer>
+        </desk>
+      </overlay>
     </div>
     <!-- PATENTS SECTION END -->
 
@@ -159,6 +160,7 @@
     <script src="assets/js/animations.min.js"></script>
     <!-- HELPERS -->
     <script type = "text/javascript" src = "assets/js/my/helpers/overlay.js"></script>
+    <script type = "text/javascript" src = "assets/js/my/helpers/desk.js"></script>
     <script type = "text/javascript" src = "assets/js/my/helpers/patentControl.js"></script>
     <script type = "text/javascript" src = "assets/js/my/helpers/uploadControl.js"></script>
     <!-- CUSTOM SCRIPTS -->

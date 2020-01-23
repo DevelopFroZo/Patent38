@@ -1,8 +1,24 @@
-let isLogged = false;
-let patentsCount = 0;
-let currentPatent, currentPatentIndex;
+let overlay, patentDetail, patentContacts,
+    patentEdit, patentIssueForm, isLogged,
+    patentsCount, currentPatent,
+    currentPatentIndex;
 
-async function deletePatent( column, serialNumber ){
+async function navbarControl(){
+  const response = await fetch( "api/auth/isLogged" );
+  isLogged = ( await response.json() ).data;
+
+  const authLink = document.querySelector( "#authLink" );
+  const uploadLi = document.querySelector( "#uploadLi" );
+
+  if( isLogged ){
+    authLink.href = "/logout";
+    authLink.innerHTML = "SIGN OUT";
+
+    uploadLi.classList.toggle( "hidden" );
+  }
+}
+
+async function deletePatent( serialNumber, node ){
   const isConfirmed = confirm( `Вы точно хотите удалить патент №${serialNumber}?` );
 
   if( !isConfirmed ) return;
@@ -21,136 +37,94 @@ async function deletePatent( column, serialNumber ){
   if( !jsn.ok )
     return alert( "Ошибка. Невозможно удалить патент" );
 
-  document.querySelector( "#patents" ).removeChild( column );
+  document.querySelector( "#patentsRow" ).removeChild( node );
 }
 
-function openEditForm( overlay ){
-  const imageSelected = document.querySelector( "#imageSelected" );
+function addPatentsToDOM( patents ){
+  const patentsRow = document.querySelector( "#patentsRow" );
 
-  document.querySelector( "#imageUnselected" ).classList.add( "hidden" );
-  imageSelected.classList.remove( "hidden" );
-  document.querySelector( "#patentDetail" ).classList.add( "hidden" );
-  document.querySelector( "#patentEdit" ).classList.remove( "hidden" );
-
-  imageSelected.style.backgroundImage = `url( assets/img/patents/${currentPatent.serial_number}.jpg )`;
-  imageSelected.style.backgroundRepeat = "no-repeat";
-  imageSelected.style.backgroundSize = "contain";
-  imageSelected.style.backgroundPosition = "center center";
-
-  document.querySelector( "#serialNumberInput" ).value = currentPatent.serial_number;
-  document.querySelector( "#nameInput" ).value = currentPatent.name;
-  document.querySelector( "#descriptionInput" ).value = currentPatent.description;
-
-  overlay.open();
-}
-
-function addPatentsToDOM( patentsData, patentIssueForm ){
-  const patents = document.querySelector( "#patents" );
-
-  for( let i = 0; i < patentsData.length; i++ ){
-    let toolbar = document.createElement( "div" );
-    toolbar.classList.add( "toolbar" );
-    toolbar.classList.add( "toolbar-hidden" );
-
-    let div = document.createElement( "div" );
-    let img = document.createElement( "img" );
-    img.setAttribute( "src", "assets/img/pencil.png" );
-    div.appendChild( img );
-    div.addEventListener( "click", () => {
-      currentPatent = patentsData[i];
-      currentPatentIndex = i;
-      openEditForm( patentIssueForm.overlay );
-    } );
-    toolbar.appendChild( div );
-
-    let divCross = document.createElement( "div" );
-    img = document.createElement( "img" );
-    img.setAttribute( "src", "assets/img/cross1.png" );
-    divCross.appendChild( img );
-    toolbar.appendChild( divCross );
-
-    let patentSection = document.createElement( "div" );
-    patentSection.setAttribute( "name", "patentSection" );
-    patentSection.className = "patent-section";
-    patentSection.innerHTML = `
-      <div class = "patent">
-        <div name = "patentSerialNumber" class = "patent-serialnumber"></div>
-        <div name = "patentName" class = "patent-name"></div>
-        <div name = "patentImage" class = "patent-image"></div>
-      </div>
-      <div class = "text-center">
-        <button class = "patent-issue">ОФОРМИТЬ ЗАЯВКУ</button>
-      </div>
-    `;
-
-    div = document.createElement( "div" );
-    divCross.addEventListener( "click", () => {
-      deletePatent( div, patentsData[i].serial_number );
-    } );
-    div.className = "col-xs-12 col-sm-6 col-md-6 col-lg-4";
-    div.appendChild( toolbar );
-    div.appendChild( patentSection );
+  for( let i = 0; i < patents.length; i++ ){
+    const node = createPatent( patents[i] );
 
     if( isLogged ){
-      div.addEventListener( "mouseover", () => {
-        toolbar.classList.remove( "toolbar-hidden" )
+      let div = document.createElement( "div" );
+      const toolbar = document.createElement( "div" );
+
+      div.innerHTML = "<img src = 'assets/img/pencil.png' />";
+      div.addEventListener( "click", ( e ) => {
+        const imageSelected = document.querySelector( "#imageSelected" );
+        const imageInput = document.querySelector( "#imageInput" );
+
+        imageInput.value = "";
+        imageInput.dispatchEvent( new Event( "change" ) );
+
+        imageSelected.style.backgroundImage = `url( assets/img/patents/${patents[i].serial_number}.jpg )`;
+        imageSelected.style.backgroundRepeat = "no-repeat";
+        imageSelected.style.backgroundSize = "cover";
+        imageSelected.style.backgroundPosition = "center center";
+
+        document.querySelector( "#imageUnselected" ).classList.add( "hidden" );
+        imageSelected.classList.remove( "hidden" );
+        document.querySelector( "#serialNumberInput" ).value = patents[i].serial_number;
+        document.querySelector( "#nameInput" ).value = patents[i].name;
+        document.querySelector( "#descriptionInput" ).value = patents[i].description;
+        currentPatent = patents[i];
+        // #fix ???
+        currentPatentIndex = i;
+        overlay.open();
+        patentEdit.open();
       } );
-      div.addEventListener( "mouseout", () => {
-        toolbar.classList.add( "toolbar-hidden" )
-      } );
+      toolbar.className = "toolbar";
+      toolbar.appendChild( div );
+
+      div = document.createElement( "div" );
+      div.innerHTML = '<img src = "assets/img/cross1.png" />';
+      div.addEventListener( "click", () => deletePatent( patents[i].serial_number, node ) );
+      toolbar.appendChild( div );
+
+      node.getElementsByClassName( "patent-section" )[0].parentNode.insertBefore( toolbar, node.getElementsByClassName( "patent-section" )[0] );
     }
 
-    patents.appendChild( div );
+    node.getElementsByClassName( "patent-section" )[0].addEventListener( "click", () => {
+      patentIssueForm.clear();
+      patentIssueForm.fill( patents[i] );
+      patentDetail.open();
+      overlay.open();
+    } );
+    patentsRow.appendChild( node );
+  };
 
-    fillPatent( patentsData, patentsCount, patentIssueForm );
-    patentsCount++;
-
-    document
-      .getElementsByName( "patentSection" )[i]
-      .addEventListener( "click", () => {
-        document.querySelector( "#patentDetail" ).classList.remove( "hidden" );
-        document.querySelector( "#patentEdit" ).classList.add( "hidden" );
-      } );
-  }
+  patentsCount += patents.length;
 }
 
-// #fix грузить по частям
-async function fetchPatents( patentIssueForm ){
+async function fetchPatents(){
   const response = await fetch( "api/patents/get" );
-  const patentsData = ( await response.json() ).data;
+  const patents = ( await response.json() ).data;
 
-  addPatentsToDOM( patentsData, patentIssueForm );
+  document.querySelector( "#patentsRow" ).innerHTML = "";
+  patentsCount = 0;
+  addPatentsToDOM( patents );
 }
 
-async function navbarControl(){
-  const response = await fetch( "api/auth/isLogged" );
-  isLogged = ( await response.json() ).data;
-
-  const authLink = document.querySelector( "#authLink" );
-  const uploadLi = document.querySelector( "#uploadLi" );
-
-  if( isLogged ){
-    authLink.href = "/logout";
-    authLink.innerHTML = "SIGN OUT";
-
-    uploadLi.classList.toggle( "hidden" );
-  }
+function patentContactsClose(){
+  patentContacts.close();
+  patentDetail.open();
 }
 
 async function searchPatents( patentIssueForm ){
   let search = document.querySelector( "#searchInput" ).value;
 
-  document.querySelector( "#patents" ).innerHTML = "";
+  document.querySelector( "#patentsRow" ).innerHTML = "";
   patentsCount = 0;
   search = search.replace( /  +/g, " " ).replace( / /g, "|" );
 
   const response = await fetch( `api/patents/get?search=${search}` );
-  const patentsData = ( await response.json() ).data;
+  const patents = ( await response.json() ).data;
 
-  addPatentsToDOM( patentsData, patentIssueForm );
+  addPatentsToDOM( patents );
 }
 
-async function editPatent( overlay ){
+async function savePatentHandler(){
   const name = document.querySelector( "#nameInput" );
   const image = document.querySelector( "#imageInput" );
   const description = document.querySelector( "#descriptionInput" );
@@ -159,7 +133,7 @@ async function editPatent( overlay ){
 
   // #fix пустые значения
 
-  formData.append( "serialNumber", parseInt( currentPatent.serial_number ) );
+  formData.append( "serialNumber", currentPatent.serial_number );
   formData.append( "name", name.value );
   formData.append( "image", image.files[0] );
   formData.append( "description", description.value );
@@ -174,6 +148,7 @@ async function editPatent( overlay ){
     switch( jsn.code ){
       case 1: error = "Проблема с базой данных"; break;
       case 5: error = "Неверный номер патента"; break;
+      case 6: error = "Патент уже зарегистрирован"; break;
       case 7: error = "Проблема с добавлением изображения"; break;
     }
 
@@ -187,7 +162,7 @@ async function editPatent( overlay ){
 
       patentImg.style.backgroundImage = `url( ${URL.createObjectURL( image.files[0] )} )`;
       patentImg.style.backgroundRepeat = "no-repeat";
-      patentImg.style.backgroundSize = "contain";
+      patentImg.style.backgroundSize = "cover";
       patentImg.style.backgroundPosition = "center center";
     }
 
@@ -202,43 +177,68 @@ async function editPatent( overlay ){
     alert( `Патент ${currentPatent.serial_number} успешно изменён!` );
 
     overlay.close();
+    patentEdit.close();
   }
 }
 
 async function index(){
-  const overlay = new Overlay( document.querySelector( "#overlay" ), document.querySelector( "#overlayClose" ) );
-  const patentIssueForm = new PatentIssueForm( overlay );
+  overlay = new Overlay( "overlay" );
+  patentDetail = new Desk( "patentDetail", "65%", "60%" );
+  patentContacts = new Desk( "patentContacts", "50%" );
+  patentEdit = new Desk( "upload", "65%", "60%" );
+  patentIssueForm = new PatentIssueForm();
   const searchInput = document.querySelector( "#searchInput" );
-  const searchContainer = document.querySelector( "#searchContainer" );
-  const magnifier = document.querySelector( "#magnifier" );
-
-  uploadControl( () => editPatent( overlay ) );
+  patentsCount = 0;
 
   await navbarControl();
-  fetchPatents( patentIssueForm );
+  fetchPatents();
+  uploadControl();
 
-  searchInput.addEventListener( "focus", () => {
-    searchContainer.style.backgroundColor = "rgba( 255, 255, 255, 0.28 )";
-    magnifier.src = "assets/img/magnifier-selected.png";
+  overlay.on( "esc", () => {
+    if( patentDetail.isOpen ){
+      overlay.close();
+      patentDetail.close();
+    }
+    else if( patentContacts.isOpen ) patentContactsClose();
+    else{
+      overlay.close();
+      patentEdit.close();
+    }
+  } );
+  patentDetail.on( "close", () => {
+    patentDetail.close();
+    overlay.close();
   } );
 
-  searchInput.addEventListener( "blur", () => {
-    searchContainer.style.backgroundColor = "rgba( 255, 255, 255, 0.5 )";
-    magnifier.src = "assets/img/magnifier-unselected.png";
+  document.querySelector( "#patentBuy" ).addEventListener( "click", () => {
+    patentDetail.close();
+    patentContacts.open();
+  } );
+
+  patentContacts.on( "close", patentContactsClose );
+  patentIssueForm.on( "success", () => {
+    patentContacts.close();
+    patentIssueForm.clear();
+    overlay.close();
+    patentDetail.open();
   } );
 
   searchInput.addEventListener( "keydown", ( e ) => {
-    if( e.key === "Enter" ) searchPatents( patentIssueForm );
+    if( e.key === "Enter" ) searchPatents();
     else if( e.key === "Escape" ){
       searchInput.value = "";
-      searchPatents( patentIssueForm );
+      fetchPatents();
     }
   } );
 
-  magnifier.addEventListener( "click", searchPatents );
-  document.body.addEventListener( "keydown", ( e ) => overlay.closeByEscape( e ) );
-  document.querySelector( "#toolbarPencil" ).addEventListener( "click", () => deletePatent = true );
-  document.querySelector( "#toolbarCross" ).addEventListener( "click", () => deletePatent = true );
+  document.querySelector( "#magnifier" ).addEventListener( "click", searchPatents );
+
+  patentEdit.on( "close", () => {
+    patentEdit.close();
+    overlay.close();
+  } );
+
+  document.querySelector( "#uploadButton" ).addEventListener( "click", savePatentHandler );
 }
 
 window.addEventListener( "load", index );

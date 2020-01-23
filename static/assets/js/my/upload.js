@@ -44,7 +44,11 @@ async function uploadButtonHandler(){
 }
 
 function index(){
-  uploadControl( uploadButtonHandler );
+  const upload = new Desk( "upload", "65%", "60%" );
+  uploadControl();
+
+  upload.open();
+  document.querySelector( "#uploadButton" ).addEventListener( "click", uploadButtonHandler );
 }
 
 window.addEventListener( "load", index );

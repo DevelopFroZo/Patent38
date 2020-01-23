@@ -7,14 +7,9 @@
 }
 
 .upload{
-  width: 60%;
-  height: 65%;
   display: flex;
-  background: rgb( 255, 255, 255 );
   padding: 35px 24px 35px 24px;
   color: rgb( 0, 0, 0 );
-  border: #288DCB 1px solid;
-  border-radius: 6px;
 }
 
 .upload .image{
@@ -46,16 +41,15 @@
 
 .upload .image .selected{
   border-radius: 6px;
-  display: flex;
-  justify-content: space-between;
+  background-color: none;
+  border: #ffffff 1px solid;
+  transition: all 0.2s ease-in-out;
 }
-
-.upload .image .selected:hover > .toolbar{
-  display: flex;
-}
-
-.upload .image .selected > .toolbar{
-  display: none;
+.upload .image .selected:hover{
+  cursor: pointer;
+  background-color: rgba( 0, 0, 0, 0.4 );
+  background-blend-mode: color;
+  border: #ffffff 1px dashed;
 }
 
 .upload .image .unselected img{

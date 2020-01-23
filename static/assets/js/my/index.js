@@ -1,8 +1,20 @@
+let overlay, patentDetail, patentContacts, patentIssueForm;
+
 async function fetchPatents( patentIssueForm ){
   const response = await fetch( "api/patents/get?count=3" );
   const patents = ( await response.json() ).data;
+  const patentsRow = document.querySelector( "#patentsRow" );
 
-  for( let i = 0; i < patents.length; i++ ) fillPatent( patents, i, patentIssueForm );
+  patents.forEach( patent => {
+    const node = createPatent( patent );
+
+    node.getElementsByClassName( "patent-section" )[0]( "click", () => {
+      patentIssueForm.clear();
+      patentIssueForm.fill( patent );
+      overlay.open();
+    } );
+    patentsRow.appendChild( node );
+  } );
 }
 
 // #fix
@@ -21,14 +33,39 @@ async function navbarControl(){
   }
 }
 
+function patentContactsClose(){
+  patentContacts.close();
+  patentDetail.open();
+}
+
 function index(){
-  const overlay = new Overlay( document.querySelector( "#overlay" ), document.querySelector( "#overlayClose" ) );
-  const patentIssueForm = new PatentIssueForm( overlay );
+  overlay = new Overlay( "overlay" );
+  patentDetail = new Desk( "patentDetail", "65%", "60%" );
+  patentContacts = new Desk( "patentContacts", "50%" );
+  const patentIssueForm = new PatentIssueForm();
 
   fetchPatents( patentIssueForm );
   navbarControl();
 
-  document.body.addEventListener( "keydown", ( e ) => overlay.closeByEscape( e ) );
+  overlay.on( "esc", () => {
+    if( patentDetail.isOpen ) overlay.close();
+    else patentContactsClose();
+  } );
+  patentDetail.open();
+  patentDetail.on( "close", () => overlay.close() );
+
+  document.querySelector( "#patentBuy" ).addEventListener( "click", () => {
+    patentDetail.close();
+    patentContacts.open();
+  } );
+
+  patentContacts.on( "close", patentContactsClose );
+  patentIssueForm.on( "success", () => {
+    patentContacts.close();
+    patentIssueForm.clear();
+    overlay.close();
+    patentDetail.open();
+  } );
 }
 
 window.addEventListener( "load", index );

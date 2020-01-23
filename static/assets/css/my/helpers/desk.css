@@ -1,0 +1,27 @@
+.desk{
+  display: none;
+  flex-direction: column;
+}
+
+.dclose{
+  text-align: right;
+}
+
+.dclose > img{
+  width: 3vmax;
+  max-width: 40px;
+  vertical-align: middle;
+  transform: translate( 50%, 50% );
+}
+
+.dclose > img:hover{
+  cursor: pointer;
+}
+
+.dcontainer{
+  width: 100%;
+  height: 100%;
+  background: rgb( 255, 255, 255 );
+  border: #288DCB 1px solid;
+  border-radius: 6px;
+}

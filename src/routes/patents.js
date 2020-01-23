@@ -94,6 +94,7 @@ router.put(
     let errorCode = false;
 
     if( isNaN( serialNumber ) || typeof serialNumber !== "number" ) return res.error( 5 );
+    if( !( await req.database.patents.check( serialNumber ) ) ) return res.error( 6 );
 
     // #fix add check types of image & size
 

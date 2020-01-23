@@ -16,7 +16,7 @@
     <link rel = "stylesheet" type = "text/css" href = "assets/css/bootstrap.css" />
     <!-- CUSTOM CSS -->
     <link rel = "stylesheet" type = "text/css" href = "assets/css/style-blue.css" />
-    <link rel = "stylesheet" type = "text/css" href = "assets/css/my/toolbar.css" />
+    <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/desk.css" />
     <link rel = "stylesheet" type = "text/css" href = "assets/css/my/upload.css" />
 
     <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -46,42 +46,39 @@
     <!--MENU SECTION END-->
     <!-- UPLOAD SECTION START-->
     <div class = "upload-container">
-      <div class = "upload">
-        <input
-          id = "imageInput"
-          type = "file"
-          accept = ".png, .jpg, .jped"
-          class = "hidden" />
-        <div class = "image">
-          <div id = "imageUnselected" class = "unselected">
-            <span>Добавить фотографию патента</span>
-            <img src = "assets/img/doc.png" />
+      <desk id = "upload" data-id = "upload" class = "desk">
+        <dcontainer class = "dcontainer upload">
+          <input
+            id = "imageInput"
+            type = "file"
+            accept = ".png, .jpg, .jped"
+            class = "hidden" />
+          <div class = "image">
+            <div id = "imageUnselected" class = "unselected">
+              <span>Добавить фотографию патента</span>
+              <img src = "assets/img/doc.png" />
+            </div>
+            <div id = "imageSelected" class = "selected hidden"></div>
           </div>
-          <div id = "imageSelected" class = "selected hidden">
-            <div class = "toolbar">
-              <div id = "toolbarPencil"><img src = "assets/img/pencil.png" /></div>
-              <div id = "toolbarCross"><img src = "assets/img/cross1.png" /></div>
+          <div class = "info">
+            <div>
+              <span>Серийный номер</span>
+              <input id = "serialNumberInput" type = "text" placeholder = "Введите номер" />
+            </div>
+            <div>
+              <span>Название патента</span>
+              <input id = "nameInput" type = "text" class = "name" placeholder = "Введите название патента" />
+            </div>
+            <div class = "description">
+              <span>Документ</span>
+              <textarea id = "descriptionInput" placeholder = "Введите текст документа"></textarea>
+            </div>
+            <div>
+              <button id = "uploadButton">ЗАГРУЗИТЬ</button>
             </div>
           </div>
-        </div>
-        <div class = "info">
-          <div>
-            <span>Серийный номер</span>
-            <input id = "serialNumberInput" type = "text" placeholder = "Введите номер" />
-          </div>
-          <div>
-            <span>Название патента</span>
-            <input id = "nameInput" type = "text" class = "name" placeholder = "Введите название патента" />
-          </div>
-          <div class = "description">
-            <span>Документ</span>
-            <textarea id = "descriptionInput" placeholder = "Введите текст документа"></textarea>
-          </div>
-          <div>
-            <button id = "uploadButton">ЗАГРУЗИТЬ</button>
-          </div>
-        </div>
-      </div>
+        </dcontainer>
+      </desk>
     </div>
     <!-- UPLOAD SECTION END -->
 
@@ -102,6 +99,7 @@
     <script src="assets/js/appear.min.js"></script>
     <script src="assets/js/animations.min.js"></script>
     <!-- HELPERS -->
+    <script type = "text/javascript" src = "assets/js/my/helpers/desk.js"></script>
     <script type = "text/javascript" src = "assets/js/my/helpers/uploadControl.js"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>

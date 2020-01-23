@@ -15,7 +15,7 @@ function uploadControl( uploadButtonHandler ){
     } else {
       imageSelected.style.backgroundImage = `url( ${URL.createObjectURL( this.files[0] )} )`;
       imageSelected.style.backgroundRepeat = "no-repeat";
-      imageSelected.style.backgroundSize = "contain";
+      imageSelected.style.backgroundSize = "cover";
       imageSelected.style.backgroundPosition = "center center";
 
       imageUnselected.classList.add( "hidden" );
@@ -23,20 +23,6 @@ function uploadControl( uploadButtonHandler ){
     }
   } );
 
+  imageSelected.addEventListener( "click", () => imageInput.click() );
   imageUnselected.addEventListener( "click", () => imageInput.click() );
-
-  document
-    .querySelector( "#toolbarPencil" )
-    .addEventListener( "click", () => imageInput.click() );
-
-  document
-    .querySelector( "#toolbarCross" )
-    .addEventListener( "click", () => {
-      imageInput.value = "";
-      imageInput.dispatchEvent( new Event( "change" ) );
-    } );
-
-  document
-    .querySelector( "#uploadButton" )
-    .addEventListener( "click", uploadButtonHandler );
 }

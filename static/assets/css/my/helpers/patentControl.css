@@ -53,37 +53,11 @@
   transition: all 0.5s ease-in-out;
 }
 
-.overlay-close{
-  width: 100%;
-  text-align: right;
-}
-
-#patentDetail{
-  width: 60%;
-  height: 60%;
-}
-
-.overlay-close-image{
-  width: 2vw;
-  border-radius: 50%;
-  transform: translate( 50%, 50% );
-}
-.overlay-close-image:hover{
-  cursor: pointer;
-}
-
 .patent_detail{
-  /* width: 60%;
-  height: 65%; */
-  width: 100%;
   height: 100%;
   display: flex;
-  background: rgb( 255, 255, 255 );
   padding: 35px 24px 35px 24px;
   color: rgb( 0, 0, 0 );
-  border: #288DCB 1px solid;
-  border-radius: 6px;
-  transition: all 0.5s ease-in-out;
 }
 
 .patent_detail-image{
@@ -135,19 +109,11 @@
   text-decoration: none;
 }
 
-#patentContacts{
-  width: 35%;
-}
-
 .patent_contacts{
   display: flex;
   justify-content: center;
-  background: rgb( 255, 255, 255 );
   padding: 12px 0px 32px 0px;
   color: rgb( 0, 0, 0 );
-  border: #288DCB 1px solid;
-  border-radius: 6px;
-  transition: all 0.5s ease-in-out;
 }
 
 .patent_contacts .inline-block{

@@ -1,26 +1,46 @@
-"use strict";
-
 class Overlay{
-  constructor( dom, closeButton ){
-    this.dom = dom;
-    this.isOpen_ = false;
+  constructor( id ){
+    const overlays = document.getElementsByTagName( "overlay" );
 
-    closeButton.addEventListener( "click", () => this.close() );
+    for( let i = 0; i < overlays.length; i++ )
+      if( overlays[i].getAttribute( "data-id" ) === id ){
+        this.init( overlays[i] );
+
+        return;
+      }
+
+    throw `Fail to load overlay with id "${id}"`;
+  }
+
+  createEvents(){
+    document.body.addEventListener( "keydown", ( e ) => {
+      if( this.isOpen && e.key === "Escape" )
+        this.dom.dispatchEvent( new Event( "esc" ) );
+    } );
+  }
+
+  init( dom ){
+    dom.classList.add( "overlay" );
+
+    this.dom = dom;
+    this.isOpen = false;
+
+    this.createEvents();
+  }
+
+  on( e, handler ){
+    this.dom.addEventListener( e, handler );
   }
 
   open(){
-    this.dom.classList.remove( "hidden" );
+    this.dom.style.display = "flex";
     document.body.style.overflowY = "hidden";
-    this.isOpen_ = true;
+    this.isOpen = true;
   }
 
   close(){
-    this.dom.classList.add( "hidden" );
     document.body.style.overflowY = "auto";
-    this.isOpen_ = false;
-  }
-
-  closeByEscape( e ){
-    if( e.key === "Escape" ) this.close();
+    this.dom.style.display = "none";
+    this.isOpen = true;
   }
 }
