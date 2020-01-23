@@ -1,6 +1,8 @@
 .desk{
   display: none;
   flex-direction: column;
+  width: 65%;
+  height: 60%;
 }
 
 .dclose{

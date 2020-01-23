@@ -57,6 +57,10 @@
   margin-top: 43px;
 }
 
+.upload .image .unselected span{
+  text-align: center;
+}
+
 .upload .info{
   width: 70%;
   height: 100%;
@@ -116,4 +120,38 @@
 .upload .info button:hover{
   background: #FFFFFF;
   color: #288DCB;
+}
+
+@media( max-width: 760px ){
+  #upload{
+    width: 90%;
+    height: auto;
+    position: absolute;
+    left: 5%;
+    top: 55px;
+  }
+
+  .upload{
+    flex-direction: column;
+  }
+
+  .upload .image{
+    width: 100%;
+    min-height: 400px;
+  }
+
+  .upload .image .unselected, .upload .image .selected{
+    width: 100%;
+    min-height: 400px;
+  }
+
+  .upload .info{
+    padding-left: 0px;
+    margin-top: 14px;
+    width: 100%;
+  }
+
+  .upload .info button{
+    width: 100%;
+  }
 }

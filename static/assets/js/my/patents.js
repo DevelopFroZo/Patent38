@@ -183,9 +183,9 @@ async function savePatentHandler(){
 
 async function index(){
   overlay = new Overlay( "overlay" );
-  patentDetail = new Desk( "patentDetail", "65%", "60%" );
-  patentContacts = new Desk( "patentContacts", "50%" );
-  patentEdit = new Desk( "upload", "65%", "60%" );
+  patentDetail = new Desk( "patentDetail" );
+  patentContacts = new Desk( "patentContacts" );
+  patentEdit = new Desk( "upload" );
   patentIssueForm = new PatentIssueForm();
   const searchInput = document.querySelector( "#searchInput" );
   patentsCount = 0;

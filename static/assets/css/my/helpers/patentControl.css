@@ -109,10 +109,15 @@
   text-decoration: none;
 }
 
+#patentContacts{
+  width: auto;
+  height: auto;
+}
+
 .patent_contacts{
   display: flex;
   justify-content: center;
-  padding: 12px 0px 32px 0px;
+  padding: 12px 24px 32px 24px;
   color: rgb( 0, 0, 0 );
 }
 
@@ -124,6 +129,7 @@
   font-family: "Oswald", sans-serif !important;
   font-size: 21px;
   padding-bottom: 0px;
+  text-align: center;
 }
 
 .patent_contacts .help{
@@ -201,4 +207,65 @@
   background-color: rgb( 255, 255, 255 );
   color: #288DCB;
   text-decoration: none;
+}
+
+@media( max-width: 760px ){
+  .overlay{
+    position: fixed;
+    overflow-y: auto;
+  }
+
+  .patent-issue{
+    width: 100%;
+  }
+
+  #patentDetail{
+    width: 90%;
+    height: auto;
+    position: absolute;
+    left: 5%;
+    top: 55px;
+  }
+
+  .patent_detail{
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .patent_detail-image{
+    width: 100%;
+    min-height: 400px;
+  }
+
+  .patent_detail-info{
+    width: 100%;
+    padding: 0px 0px 0px 0px;
+    padding-top: 14px;
+  }
+
+  .patent_detail-description{
+    overflow-y: auto;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .patent_detail-buy{
+    width: 100%;
+  }
+
+  #patentContacts{
+    width: 90%;
+    height: auto;
+    position: absolute;
+    left: 5%;
+    top: 55px;
+  }
+
+  .patent_contacts{
+    padding: 15px 24px 35px 24px;
+  }
+
+  .patent_contacts button{
+    padding: 10px 0px 10px 0px;
+  }
 }

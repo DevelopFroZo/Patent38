@@ -44,7 +44,7 @@ async function uploadButtonHandler(){
 }
 
 function index(){
-  const upload = new Desk( "upload", "65%", "60%" );
+  const upload = new Desk( "upload" );
   uploadControl();
 
   upload.open();

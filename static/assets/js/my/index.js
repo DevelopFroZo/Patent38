@@ -39,9 +39,10 @@ function patentContactsClose(){
 }
 
 function index(){
+  const { width, height } = getScreenSize();
   overlay = new Overlay( "overlay" );
-  patentDetail = new Desk( "patentDetail", "65%", "60%" );
-  patentContacts = new Desk( "patentContacts", "50%" );
+  patentDetail = new Desk( "patentDetail" );
+  patentContacts = new Desk( "patentContacts" );
   const patentIssueForm = new PatentIssueForm();
 
   fetchPatents( patentIssueForm );
