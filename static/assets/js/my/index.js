@@ -8,7 +8,7 @@ async function fetchPatents( patentIssueForm ){
   patents.forEach( patent => {
     const node = createPatent( patent );
 
-    node.getElementsByClassName( "patent-section" )[0]( "click", () => {
+    node.getElementsByClassName( "patent-section" )[0].addEventListener( "click", () => {
       patentIssueForm.clear();
       patentIssueForm.fill( patent );
       overlay.open();
