@@ -12,7 +12,7 @@ async function navbarControl(){
 
   if( isLogged ){
     authLink.href = "/logout";
-    authLink.innerHTML = "SIGN OUT";
+    authLink.innerHTML = "ВЫЙТИ";
 
     uploadLi.classList.toggle( "hidden" );
   }
