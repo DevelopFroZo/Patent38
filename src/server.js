@@ -33,7 +33,7 @@ server.use(
     cookie: {
       httpOnly: true,
       maxAge: !dev ? parseInt( process.env.SESSION_COOKIE_MAXAGE ) : null,
-      secure: !dev && process.env.SESSION_COOKIE_SECURE
+      secure: !dev && process.env.SESSION_COOKIE_SECURE === "true"
     },
     name: !dev ? process.env.SESSION_NAME : null,
     resave: false,
