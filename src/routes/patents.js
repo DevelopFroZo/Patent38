@@ -8,9 +8,25 @@ const isLogged = require( "./helpers/isLogged" );
 const router = express.Router();
 const upload = multer();
 
-// #fix add time
+function writeFile( path, data ){
+  return new Promise( ( res, rej ) => {
+    fs.writeFile( path, data, err => {
+      if( err ) rej( err );
+      else res();
+    } );
+  } );
+}
+
+function unlink( path ){
+  return new Promise( ( res, rej ) => {
+    fs.unlink( path, err => {
+      if( err ) rej( err );
+      else res();
+    } );
+  } );
+}
+
 // #fix перенести проверку check в метод add
-// #fix подставлять тип исходного файла
 router.post(
   "/upload",
   isLogged( true ),
@@ -32,25 +48,25 @@ router.post(
       return;
     }
 
-    // #fix promisify
-    fs.writeFile( `static/assets/img/patents/${serialNumber}.jpg`, req.file.buffer, async err => {
-      if( err ){
-        res.error( 7 );
+    const ext = req.file.originalname.substring( req.file.originalname.lastIndexOf( "." ) + 1 );
 
-        return;
-      }
+    try{
+      await writeFile( `static/assets/img/patents/${serialNumber}.${ext}`, req.file.buffer );
+    }
+    catch( err ){
+      res.error( 7 );
+    }
 
-      res.json( await req.database.patents.add( serialNumber, req.body.name, req.body.description ) );
-    } );
+    res.json( await req.database.patents.add( serialNumber, ext, req.body.name, req.body.description ) );
   }
 );
 
-router.get( "/get", async ( req, res ) => {
+router.get( "/", async ( req, res ) => {
   let count;
 
   if( req.query.count ) count = parseInt( req.query.count );
 
-  if( isNaN( count) || typeof count !== "number" ) count = -1;
+  if( isNaN( count ) || typeof count !== "number" ) count = -1;
 
   res.json( await req.database.patents.get(
     count,
@@ -59,55 +75,52 @@ router.get( "/get", async ( req, res ) => {
 } );
 
 // #fix добавить проверки
-// #fix подставлять тип исходного файла
-// #fix переделать удаление нескольких файлов
 router.delete(
-  "/delete",
+  "/",
   isLogged( true ),
   async ( req, res ) => {
-    const response = await req.database.patents.delete( req.body.serialNumbers );
-    let len = req.body.serialNumbers.length;
+    const response = await req.database.patents.delete( req.body.serialNumber );
 
-    if( !response.ok ){
-      res.error( 8 );
+    if( !response.ok )
+      return res.error( 8 );
 
-      return;
+    try{
+      await unlink( `static/assets/img/patents/${req.body.serialNumber}.${response.data}` );
+
+      res.success();
     }
-
-    req.body.serialNumbers.forEach( serialNumber => {
-      fs.unlink( `static/assets/img/patents/${serialNumber}.jpg`, err => {
-        len--;
-
-        if( len === 0 ) res.success();
-      } );
-    } );
+    catch( error ){
+      res.error( 7 );
+    }
   }
 );
 
-// #fix подставлять тип исходного файла
 router.put(
-  "/put/:serialNumber",
+  "/:serialNumber",
   isLogged( true ),
   upload.single( "image" ),
   async ( req, res ) => {
     const serialNumber = parseInt( req.params.serialNumber );
     let errorCode = false;
+    let ext;
 
     if( isNaN( serialNumber ) || typeof serialNumber !== "number" ) return res.error( 5 );
     if( !( await req.database.patents.check( serialNumber ) ) ) return res.error( 6 );
 
     // #fix add check types of image & size
 
-    // #fix promisify
-    if( req.file !== undefined )
-      return fs.writeFile( `static/assets/img/patents/${serialNumber}.jpg`, req.file.buffer, async err => {
-        if( err )
-          return res.error( 7 );
+    if( req.file !== undefined ){
+      ext = req.file.originalname.substring( req.file.originalname.lastIndexOf( "." ) + 1 );
 
-        res.json( await req.database.patents.edit( serialNumber, req.body.name, req.body.description ) );
-      } );
+      try{
+        await writeFile( `static/assets/img/patents/${serialNumber}.${ext}`, req.file.buffer );
+      }
+      catch( err ){
+        return res.error( 7 );
+      }
+    }
 
-    res.json( await req.database.patents.edit( serialNumber, req.body.name, req.body.description ) );
+    res.json( await req.database.patents.edit( serialNumber, ext, req.body.name, req.body.description ) );
   }
 );
 

@@ -23,14 +23,12 @@ async function deletePatent( serialNumber, node ){
 
   if( !isConfirmed ) return;
 
-  const response = await fetch( "/api/patents/delete", {
+  const response = await fetch( "/api/patents", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify( {
-      serialNumbers: [ serialNumber ]
-    } )
+    body: JSON.stringify( { serialNumber } )
   } );
   const jsn = await response.json();
 
@@ -58,7 +56,7 @@ function addPatentsToDOM( patents ){
         imageInput.value = "";
         imageInput.dispatchEvent( new Event( "change" ) );
 
-        imageSelected.style.backgroundImage = `url( assets/img/patents/${patents[i].serial_number}.jpg )`;
+        imageSelected.style.backgroundImage = `url( assets/img/patents/${patents[i].serial_number}.${patents[i].ext} )`;
         imageSelected.style.backgroundRepeat = "no-repeat";
         imageSelected.style.backgroundSize = "cover";
         imageSelected.style.backgroundPosition = "center center";
@@ -98,7 +96,7 @@ function addPatentsToDOM( patents ){
 }
 
 async function fetchPatents(){
-  const response = await fetch( "api/patents/get" );
+  const response = await fetch( "api/patents" );
   const patents = ( await response.json() ).data;
 
   document.querySelector( "#patentsRow" ).innerHTML = "";
@@ -118,7 +116,7 @@ async function searchPatents( patentIssueForm ){
   patentsCount = 0;
   search = search.replace( /  +/g, " " ).replace( / /g, "|" );
 
-  const response = await fetch( `api/patents/get?search=${search}` );
+  const response = await fetch( `api/patents?search=${search}` );
   const patents = ( await response.json() ).data;
 
   addPatentsToDOM( patents );
@@ -138,7 +136,7 @@ async function savePatentHandler(){
   formData.append( "image", image.files[0] );
   formData.append( "description", description.value );
 
-  const response = await fetch( `api/patents/put/${currentPatent.serial_number}`, {
+  const response = await fetch( `api/patents/${currentPatent.serial_number}`, {
     method: "PUT",
     body: formData
   } );

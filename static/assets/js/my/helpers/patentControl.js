@@ -42,7 +42,7 @@ class PatentIssueForm{
   fill( patent ){
     this.patent = patent;
 
-    this.image.style.backgroundImage = `url( "assets/img/patents/${patent.serial_number}.jpg" )`;
+    this.image.style.backgroundImage = `url( "assets/img/patents/${patent.serial_number}.${patent.ext}" )`;
     this.image.style.backgroundRepeat = "no-repeat";
     this.image.style.backgroundSize = "cover";
     this.image.style.backgroundPosition = "center center";
@@ -109,7 +109,7 @@ function createPatent( patent ){
   element = document.createElement( "div" );
   element.className = "patent-image";
   element.setAttribute( "name", "patentImage" );
-  element.style.backgroundImage = `url( "assets/img/patents/${patent.serial_number}.jpg" )`;
+  element.style.backgroundImage = `url( "assets/img/patents/${patent.serial_number}.${patent.ext}" )`;
   element.style.backgroundRepeat = "no-repeat";
   element.style.backgroundSize = "cover";
   element.style.backgroundPosition = "center center";

@@ -8,10 +8,7 @@ async function signinButtonHandler(){
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify( {
-      login,
-      password
-    } )
+    body: JSON.stringify( { login, password } )
   } );
 
   if( response.redirected ){
@@ -20,16 +17,10 @@ async function signinButtonHandler(){
     return;
   }
 
-  if( !response.ok ){
-    console.log( response );
-
-    return;
-  }
-
   const jsn = await response.json();
 
-  // #fix обработка ошибки
-  console.log( jsn );
+  if( jsn.code === 2 ) alert( "Пользователь не найден" );
+  else alert( "Неверный пароль" );
 }
 
 function index(){

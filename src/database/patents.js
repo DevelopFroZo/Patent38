@@ -23,13 +23,12 @@ module.exports = class extends Foundation{
     return false;
   }
 
-  // #fix add time
-  async add( serialNumber, name, description ){
+  async add( serialNumber, ext, name, description ){
     try{
       await super.query(
-        `insert into patents( serial_number, name, description )
-        values( $1, $2, $3 )`,
-        [ serialNumber, name, description ]
+        `insert into patents( serial_number, ext, name, description )
+        values( $1, $2, $3, $4 )`,
+        [ serialNumber, ext, name, description ]
       );
 
       return super.success();
@@ -70,15 +69,19 @@ module.exports = class extends Foundation{
     }
   }
 
-  async delete( serialNumbers ){
+  async delete( serialNumber ){
     try{
-      await super.query(
+      const row = ( await super.query(
         `delete from patents
-        where serial_number = ANY( $1::int[] )`,
-        [ serialNumbers ]
-      );
+        where serial_number = $1
+        returning ext`,
+        [ serialNumber ]
+      ) ).rows[0];
 
-      return super.success();
+      if( row === undefined )
+        return super.error();
+
+      return super.success( 0, row.ext );
     }
     catch( error ){
       console.log( error );
@@ -87,14 +90,13 @@ module.exports = class extends Foundation{
     }
   }
 
-  // #fix обновлять не всё, а только по требованию
-  async edit( serialNumber, name, description ){
+  async edit( serialNumber, ext, name, description ){
     try{
       await super.query(
         `update patents
-        set name = $1, description = $2
-        where serial_number = $3`,
-        [ name, description, serialNumber ]
+        set name = $1, ext = $2, description = $3
+        where serial_number = $4`,
+        [ name, ext, description, serialNumber ]
       );
 
       return super.success();

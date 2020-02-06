@@ -1,7 +1,7 @@
 let overlay, patentDetail, patentContacts, patentIssueForm;
 
 async function fetchPatents( patentIssueForm ){
-  const response = await fetch( "api/patents/get?count=3" );
+  const response = await fetch( "api/patents?count=3" );
   const patents = ( await response.json() ).data;
   const patentsRow = document.querySelector( "#patentsRow" );
 
