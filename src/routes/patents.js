@@ -31,9 +31,10 @@ router.post(
   "/upload",
   isLogged( true ),
   upload.single( "image" ),
-  async ( req, res, next ) => {
+  async ( req, res ) => {
     const serialNumber = parseInt( req.body.serialNumber );
     let errorCode = false;
+    let categoryId;
 
     if( req.file === undefined ) errorCode = 4;
     else if( isNaN( serialNumber ) || typeof serialNumber !== "number" ) errorCode = 5;
@@ -57,20 +58,35 @@ router.post(
       res.error( 7 );
     }
 
-    res.json( await req.database.patents.add( serialNumber, ext, req.body.name, req.body.description ) );
+    if( req.body.categoryId ) categoryId = req.body.categoryId;
+    else categoryId = null;
+
+    res.json( await req.database.patents.add(
+      serialNumber,
+      ext,
+      req.body.name,
+      req.body.description,
+      categoryId
+    ) );
   }
 );
 
 router.get( "/", async ( req, res ) => {
   let count;
+  let categoryIds;
 
   if( req.query.count ) count = parseInt( req.query.count );
 
   if( isNaN( count ) || typeof count !== "number" ) count = -1;
 
+  if( req.query.categoryIds ) categoryIds = req.query.categoryIds.split( "," );
+  else categoryIds = null;
+
+  // #fix переделать req.query
   res.json( await req.database.patents.get(
     count,
-    req.query.search
+    req.query.search,
+    categoryIds
   ) );
 } );
 
@@ -103,6 +119,7 @@ router.put(
     const serialNumber = parseInt( req.params.serialNumber );
     let errorCode = false;
     let ext;
+    let categoryId;
 
     if( isNaN( serialNumber ) || typeof serialNumber !== "number" ) return res.error( 5 );
     if( !( await req.database.patents.check( serialNumber ) ) ) return res.error( 6 );
@@ -120,7 +137,16 @@ router.put(
       }
     }
 
-    res.json( await req.database.patents.edit( serialNumber, ext, req.body.name, req.body.description ) );
+    if( req.body.categoryId ) categoryId = req.body.categoryId;
+    else categoryId = null;
+
+    res.json( await req.database.patents.edit(
+      serialNumber,
+      ext,
+      req.body.name,
+      req.body.description,
+      categoryId
+    ) );
   }
 );
 

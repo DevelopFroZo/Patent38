@@ -1,0 +1,22 @@
+.dropdown{
+  position: relative;
+  display: none;
+}
+
+.dropdown > .list{
+  position: absolute;
+  visibility: hidden;
+  width: 100%;
+  max-height: 200px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.dropdown:hover{
+  cursor: pointer;
+}
+
+.dropdown:hover .list, .dropdown > .list:hover{
+  cursor: pointer;
+  visibility: visible;
+}

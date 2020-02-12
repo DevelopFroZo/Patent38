@@ -6,6 +6,7 @@ const codes = require( "./codes" );
 
 const Auth = require( "./auth" );
 const Patents = require( "./patents" );
+const Categories = require( "./categories" );
 
 const dev = process.env.NODE_ENV === "development";
 const modules = {};
@@ -16,6 +17,7 @@ modules.pool = new pg.Pool( !dev ? config.production : config.development );
 // Controllers
 modules.auth = new Auth( modules );
 modules.patents = new Patents( modules );
+modules.categories = new Categories( modules );
 
 // Success & error functions
 modules.success = ( code, data ) => {
