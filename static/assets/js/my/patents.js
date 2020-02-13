@@ -146,7 +146,7 @@ async function searchPatents( patentIssueForm ){
 
 async function savePatentHandler(){
   const name = document.querySelector( "#nameInput" );
-  const categoryId = document.querySelector( "#categoryHeader" );
+  const category = document.querySelector( "#categoryHeader" );
   const image = document.querySelector( "#imageInput" );
   const description = document.querySelector( "#descriptionInput" );
   const formData = new FormData();
@@ -155,7 +155,7 @@ async function savePatentHandler(){
   // #fix пустые значения
 
   formData.append( "serialNumber", currentPatent.serial_number );
-  formData.append( "categoryId", parseInt( categoryId.getAttribute( "value" ) ) );
+  formData.append( "categoryId", parseInt( category.getAttribute( "value" ) ) );
   formData.append( "name", name.value );
   formData.append( "image", image.files[0] );
   formData.append( "description", description.value );
@@ -190,6 +190,8 @@ async function savePatentHandler(){
 
     currentPatent.name = name.value;
     currentPatent.description = description.value;
+    currentPatent.category_id = parseInt( category.getAttribute( "value" ) );
+    currentPatent.category_name = category.innerHTML;
 
     imageInput.value = "";
     imageInput.dispatchEvent( new Event( "change" ) );

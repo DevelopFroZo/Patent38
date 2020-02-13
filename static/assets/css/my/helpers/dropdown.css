@@ -39,7 +39,7 @@
 
 .dropdown > .list{
   border-top: none;
-  background: #288DCB;
+  background: #288DCB !important;
   color: #ffffff;
 }
 
