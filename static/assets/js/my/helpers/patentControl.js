@@ -71,7 +71,7 @@ class PatentIssueForm{
 
     if( !jsn.ok ) alert( `Ошибка. ${jsn.data}` );
     else{
-      alert( "Заявка на оформление патента отпраавлена!" );
+      alert( "Заявка на оформление патента отправлена!" );
 
       this.contacts.dispatchEvent( new Event( "success" ) );
     }
