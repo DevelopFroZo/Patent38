@@ -1,0 +1,85 @@
+.navbar_custom_a{
+  color: #288DCB !important;
+  transition: all 0.5s ease-in-out;
+}
+
+.navbar_custom_a:hover{
+  color: rgb( 255, 255, 255 ) !important;
+}
+
+#addContainer{
+  margin-top: 120px;
+}
+
+.addContainer{
+  display: flex;
+}
+
+.addContainer > .addInputDiv{
+  width: 50%;
+}
+
+.addContainer > .addButtonDiv{
+  display: flex;
+  width: 50%;
+  justify-content: flex-start;
+}
+
+.addContainer input{
+  width: 100%;
+  background-color: rgb( 255, 255, 255, 0.5 );
+  padding: 13px 15px 13px 33px;
+  border: #288DCB 1px solid;
+  color: rgb( 255, 255, 255 );
+  font-family: "Ubuntu", sans-serif;
+  font-size: 16px;
+  outline: none;
+}
+
+.addContainer button{
+  background: #288DCB;
+  border: #288DCB 1px solid;
+  padding: 13px 20px 13px 20px;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 16px;
+  transition: all 0.5s ease-in-out;
+  margin-left: 20px;
+  outline: none;
+}
+
+.addContainer button:hover{
+  background-color: rgb( 255, 255, 255 );
+  color: #288DCB;
+}
+
+.category_list{
+  text-align: left;
+}
+
+.category_list .cont{
+  display: flex;
+}
+
+.category_list .preview{
+  border-bottom: #288DCB 1px solid;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 16px;
+  width: 200px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.category_list .edit{
+  border: none;
+  background: none;
+  border-bottom: rgb( 255, 0, 0 ) 1px solid;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 16px;
+  width: 200px;
+  text-align: center;
+  outline: none;
+  padding: 0px;
+}
+.category_list .edit:focus{
+  border-bottom: rgba( 255, 0, 0, 0.4 ) 1px solid;
+}
