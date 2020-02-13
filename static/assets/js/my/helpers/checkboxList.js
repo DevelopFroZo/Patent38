@@ -27,7 +27,7 @@ class CheckboxList{
     else
       this.values.push( value );
 
-    this.element.dispatchEvent( new CustomEvent( "changed", { detail: item } ) );
+    this.element.dispatchEvent( new CustomEvent( "check", { detail: item } ) );
   }
 
   init(){
@@ -56,10 +56,12 @@ class CheckboxList{
     this.element.innerHTML = "";
   }
 
-  add( value, text ){
+  add( text, value ){
     const div = document.createElement( "div" );
 
-    div.setAttribute( "value", value );
+    if( value ) div.setAttribute( "value", value );
+
+    div.addEventListener( "click", () => this.check( div ) );
     div.innerHTML = text;
     this.element.appendChild( div );
   }

@@ -19,6 +19,7 @@
     <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/overlay.css" />
     <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/desk.css" />
     <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/patentControl.css" />
+    <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/dropdown.css" />
     <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/patents.css" />
     <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/upload.css" />
 
@@ -60,6 +61,12 @@
               <img id = "magnifier" src = "assets/img/magnifier-unselected.png" class = "magnifier" />
             </div>
           </div>
+          <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-4">
+            <div class = "dropdown" style = "z-index: 100">
+              <div class = "header">Категории</div>
+              <checkboxList data-id = "categories" class = "list"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -74,7 +81,10 @@
             <div class = "patent_detail">
               <div id = "patentDetailImage" class = "patent_detail-image"></div>
               <div class = "patent_detail-info">
-                <div id = "patentDetailSerialNumber" class = "patent_detail-serial_number"></div>
+                <div class = "patent_detail-custom-column-0">
+                  <div id = "patentDetailSerialNumber" class = "patent_detail-serial_number"></div>
+                  <div id = "patentDetailCategory" style = "margin-left: 20px" class = "patent_detail-category"></div>
+                </div>
                 <div id = "patentDetailName" class = "patent_detail-name"></div>
                 <div id = "patentDetailDescription" class = "patent_detail-description"></div>
                 <div>
@@ -122,9 +132,18 @@
               <div id = "imageSelected" class = "selected"></div>
             </div>
             <div class = "info">
-              <div>
-                <span>Серийный номер</span>
-                <input id = "serialNumberInput" type = "text" disabled />
+              <div class = "custom-row-0">
+                <div>
+                  <span>Серийный номер</span>
+                  <input id = "serialNumberInput" type = "text" placeholder = "Введите номер" />
+                </div>
+                <div style = "width: 100%; margin-left: 20px">
+                  <span>Категория</span>
+                  <div data-id = "category" class = "dropdown">
+                    <div id = "categoryHeader" class = "header">Категория</div>
+                    <selectList data-id = "categories" class = "list"></selectList>
+                  </div>
+                </div>
               </div>
               <div>
                 <span>Название патента</span>
@@ -165,6 +184,8 @@
     <script type = "text/javascript" src = "assets/js/my/helpers/desk.js"></script>
     <script type = "text/javascript" src = "assets/js/my/helpers/patentControl.js"></script>
     <script type = "text/javascript" src = "assets/js/my/helpers/uploadControl.js"></script>
+    <script type = "text/javascript" src = "assets/js/my/helpers/selectList.js"></script>
+    <script type = "text/javascript" src = "assets/js/my/helpers/checkboxList.js"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
     <script type = "text/javascript" src = "assets/js/my/patents.js"></script>

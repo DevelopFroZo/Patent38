@@ -74,6 +74,10 @@
   flex-direction: column;
 }
 
+.patent_detail-custom-column-0{
+  display: flex;
+}
+
 .patent_detail-serial_number{
   font-size: 14px;
   padding-bottom: 9px;

@@ -17,6 +17,7 @@
     <!-- CUSTOM CSS -->
     <link rel = "stylesheet" type = "text/css" href = "assets/css/style-blue.css" />
     <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/desk.css" />
+    <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/dropdown.css" />
     <link rel = "stylesheet" type = "text/css" href = "assets/css/my/upload.css" />
 
     <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -63,9 +64,18 @@
             <div id = "imageSelected" class = "selected hidden"></div>
           </div>
           <div class = "info">
-            <div>
-              <span>Серийный номер</span>
-              <input id = "serialNumberInput" type = "text" placeholder = "Введите номер" />
+            <div class = "custom-row-0">
+              <div>
+                <span>Серийный номер</span>
+                <input id = "serialNumberInput" type = "text" placeholder = "Введите номер" />
+              </div>
+              <div style = "width: 100%; margin-left: 20px">
+                <span>Категория</span>
+                <div data-id = "category" class = "dropdown">
+                  <div id = "categoryHeader" class = "header">Категория</div>
+                  <selectList data-id = "categories" class = "list"></selectList>
+                </div>
+              </div>
             </div>
             <div>
               <span>Название патента</span>
@@ -103,6 +113,7 @@
     <!-- HELPERS -->
     <script type = "text/javascript" src = "assets/js/my/helpers/desk.js"></script>
     <script type = "text/javascript" src = "assets/js/my/helpers/uploadControl.js"></script>
+    <script type = "text/javascript" src = "assets/js/my/helpers/selectList.js"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
     <script type = "text/javascript" src = "assets/js/my/upload.js"></script>

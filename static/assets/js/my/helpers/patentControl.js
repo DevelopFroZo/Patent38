@@ -2,6 +2,7 @@ class PatentIssueForm{
   constructor(){
     this.image = document.querySelector( "#patentDetailImage" );
     this.serialNumber = document.querySelector( "#patentDetailSerialNumber" );
+    this.category = document.querySelector( "#patentDetailCategory" );
     this.name = document.querySelector( "#patentDetailName" );
     this.description = document.querySelector( "#patentDetailDescription" );
 
@@ -48,6 +49,7 @@ class PatentIssueForm{
     this.image.style.backgroundPosition = "center center";
 
     this.serialNumber.innerHTML = `№ ${patent.serial_number}`;
+    this.category.innerHTML = patent.category_name ? patent.category_name : "Без категории";
     this.name.innerHTML = patent.name;
     this.description.innerHTML = patent.description;
   }

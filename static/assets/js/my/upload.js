@@ -1,7 +1,15 @@
 "use strict";
 
+async function fetchCategories( selectList ){
+  const response = await fetch( "/api/categories" );
+  const categories = ( await response.json() ).data;
+
+  selectList.fill( categories.map( category => [ category.name, category.id ] ) );
+}
+
 async function uploadButtonHandler(){
   const serialNumber = document.querySelector( "#serialNumberInput" );
+  const categoryId = document.querySelector( "#categoryHeader" );
   const name = document.querySelector( "#nameInput" );
   const image = document.querySelector( "#imageInput" );
   const description = document.querySelector( "#descriptionInput" );
@@ -11,6 +19,7 @@ async function uploadButtonHandler(){
   // #fix пустые значения
 
   formData.append( "serialNumber", parseInt( serialNumber.value ) );
+  formData.append( "categoryId", parseInt( categoryId.getAttribute( "value" ) ) );
   formData.append( "name", name.value );
   formData.append( "image", image.files[0] );
   formData.append( "description", description.value );
@@ -45,10 +54,20 @@ async function uploadButtonHandler(){
 
 function index(){
   const upload = new Desk( "upload" );
+  const selectList = new SelectList( "categories" );
+
+  fetchCategories( selectList );
   uploadControl();
 
   upload.open();
   document.querySelector( "#uploadButton" ).addEventListener( "click", uploadButtonHandler );
+
+  selectList.on( "select", ( e ) => {
+    const categoryHeader = document.querySelector( "#categoryHeader" );
+
+    categoryHeader.setAttribute( "value", e.detail.getAttribute( "value" ) );
+    categoryHeader.innerHTML = e.detail.innerHTML;
+  } );
 }
 
 window.addEventListener( "load", index );

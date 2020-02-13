@@ -1,7 +1,16 @@
 let overlay, patentDetail, patentContacts,
-    patentEdit, patentIssueForm, isLogged,
-    patentsCount, currentPatent,
-    currentPatentIndex;
+    patentEdit, categories, patentIssueForm,
+    categories2, isLogged, patentsCount,
+    currentPatent, currentPatentIndex;
+
+async function fetchCategories(){
+  const response = await fetch( "/api/categories" );
+  const categoriesData = ( await response.json() ).data;
+  const transformed = categoriesData.map( category => [ category.name, category.id ] )
+
+  categories.fill( transformed );
+  categories2.fill( transformed );
+}
 
 async function navbarControl(){
   const response = await fetch( "api/auth/isLogged" );
@@ -52,6 +61,7 @@ function addPatentsToDOM( patents ){
       div.addEventListener( "click", ( e ) => {
         const imageSelected = document.querySelector( "#imageSelected" );
         const imageInput = document.querySelector( "#imageInput" );
+        const items = categories.element.getElementsByTagName( "div" );
 
         imageInput.value = "";
         imageInput.dispatchEvent( new Event( "change" ) );
@@ -64,8 +74,19 @@ function addPatentsToDOM( patents ){
         document.querySelector( "#imageUnselected" ).classList.add( "hidden" );
         imageSelected.classList.remove( "hidden" );
         document.querySelector( "#serialNumberInput" ).value = patents[i].serial_number;
+
+        if( patents[i].category_id )
+          for( let j = 0; j < items.length; j++ ){
+            if( parseInt( items[j].getAttribute( "value" ) ) === patents[i].category_id ){
+              categories.select( items[j] );
+              break;
+            }
+          }
+        else categories.unselect();
+
         document.querySelector( "#nameInput" ).value = patents[i].name;
         document.querySelector( "#descriptionInput" ).value = patents[i].description;
+
         currentPatent = patents[i];
         // #fix ???
         currentPatentIndex = i;
@@ -111,12 +132,13 @@ function patentContactsClose(){
 
 async function searchPatents( patentIssueForm ){
   let search = document.querySelector( "#searchInput" ).value;
+  const categoryIds = categories2.values.join( "," );
 
   document.querySelector( "#patentsRow" ).innerHTML = "";
   patentsCount = 0;
   search = search.replace( /  +/g, " " ).replace( / /g, "|" );
 
-  const response = await fetch( `api/patents?search=${search}` );
+  const response = await fetch( `api/patents?search=${search}&categoryIds=${categoryIds}` );
   const patents = ( await response.json() ).data;
 
   addPatentsToDOM( patents );
@@ -124,6 +146,7 @@ async function searchPatents( patentIssueForm ){
 
 async function savePatentHandler(){
   const name = document.querySelector( "#nameInput" );
+  const categoryId = document.querySelector( "#categoryHeader" );
   const image = document.querySelector( "#imageInput" );
   const description = document.querySelector( "#descriptionInput" );
   const formData = new FormData();
@@ -132,6 +155,7 @@ async function savePatentHandler(){
   // #fix пустые значения
 
   formData.append( "serialNumber", currentPatent.serial_number );
+  formData.append( "categoryId", parseInt( categoryId.getAttribute( "value" ) ) );
   formData.append( "name", name.value );
   formData.append( "image", image.files[0] );
   formData.append( "description", description.value );
@@ -184,10 +208,13 @@ async function index(){
   patentDetail = new Desk( "patentDetail" );
   patentContacts = new Desk( "patentContacts" );
   patentEdit = new Desk( "upload" );
+  categories = new SelectList( "categories" );
   patentIssueForm = new PatentIssueForm();
+  categories2 = new CheckboxList( "categories" );
   const searchInput = document.querySelector( "#searchInput" );
   patentsCount = 0;
 
+  fetchCategories();
   await navbarControl();
   fetchPatents();
   uploadControl();
@@ -237,6 +264,19 @@ async function index(){
   } );
 
   document.querySelector( "#uploadButton" ).addEventListener( "click", savePatentHandler );
+
+  categories.on( "select", ( e ) => {
+    const categoryHeader = document.querySelector( "#categoryHeader" );
+
+    categoryHeader.setAttribute( "value", e.detail.getAttribute( "value" ) );
+    categoryHeader.innerHTML = e.detail.innerHTML;
+  } );
+  categories.on( "unselect", () => {
+    categoryHeader.removeAttribute( "value" );
+    categoryHeader.innerHTML = "Категория";
+  } );
+
+  categories2.on( "check", searchPatents );
 }
 
 window.addEventListener( "load", index );

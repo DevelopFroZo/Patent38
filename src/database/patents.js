@@ -49,9 +49,9 @@ module.exports = class extends Foundation{
 
       if( search && search !== "" ){
         filters.push( `to_tsvector(
-          serial_number || ' ' ||
-          name || ' ' ||
-          description
+          p.serial_number || ' ' ||
+          p.name || ' ' ||
+          p.description
         ) @@ to_tsquery( $${fc++} )` );
         params.push( search );
       }
@@ -67,8 +67,11 @@ module.exports = class extends Foundation{
         filters = "";
 
       const data = ( await super.query(
-        `select *
-        from patents
+        `select p.*, c.name as category_name
+        from
+          patents as p
+          left join categories as c
+          on p.category_id = c.id
         ${filters}
         order by date desc
         ${limit}`,

@@ -34,7 +34,7 @@ router.post(
   async ( req, res ) => {
     const serialNumber = parseInt( req.body.serialNumber );
     let errorCode = false;
-    let categoryId;
+    let categoryId = parseInt( req.body.categoryId );
 
     if( req.file === undefined ) errorCode = 4;
     else if( isNaN( serialNumber ) || typeof serialNumber !== "number" ) errorCode = 5;
@@ -58,8 +58,7 @@ router.post(
       res.error( 7 );
     }
 
-    if( req.body.categoryId ) categoryId = req.body.categoryId;
-    else categoryId = null;
+    if( !categoryId ) categoryId = null;
 
     res.json( await req.database.patents.add(
       serialNumber,
@@ -119,7 +118,7 @@ router.put(
     const serialNumber = parseInt( req.params.serialNumber );
     let errorCode = false;
     let ext;
-    let categoryId;
+    let categoryId = parseInt( req.body.categoryId );
 
     if( isNaN( serialNumber ) || typeof serialNumber !== "number" ) return res.error( 5 );
     if( !( await req.database.patents.check( serialNumber ) ) ) return res.error( 6 );
@@ -137,8 +136,7 @@ router.put(
       }
     }
 
-    if( req.body.categoryId ) categoryId = req.body.categoryId;
-    else categoryId = null;
+    if( !categoryId ) categoryId = null;
 
     res.json( await req.database.patents.edit(
       serialNumber,

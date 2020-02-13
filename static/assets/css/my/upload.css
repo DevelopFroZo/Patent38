@@ -69,6 +69,10 @@
   flex-direction: column;
 }
 
+.upload .info .custom-row-0{
+  display: flex;
+}
+
 .upload .info span{
   display: block;
   font-family: "Ubuntu", sans-serif;
