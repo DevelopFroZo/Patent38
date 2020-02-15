@@ -301,6 +301,8 @@ async function index(){
 
     if( checked ) categories2.checkAll();
     else categories2.uncheckAll();
+
+    searchPatents();
   } );
 }
 
