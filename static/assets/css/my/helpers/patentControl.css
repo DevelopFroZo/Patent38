@@ -214,7 +214,7 @@
   text-decoration: none;
 }
 
-@media( max-width: 1025px ){
+@media( max-width: 1199px ){
   .patent-issue{
     font-size: 12px;
   }

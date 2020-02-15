@@ -43,13 +43,63 @@
   cursor: pointer;
 }
 
-.dropdown > .header, .dropdown > .list{
-  font-size: 16px;
-  background-color: rgba( 255, 255, 255, 0.5 );
+.dropdown-custom{
+  width: 100%;
+}
+.dropdown-custom:hover .header > .img > img{
+  transform: rotate( 180deg );
 }
 
-.dropdown > .header{
-  padding: 15px 14px 14px 14px;
+.dropdown-custom:hover, .dropdown-custom:hover .list{
+  background-color: rgb( 255, 255, 255 );
+  color: #000000;
+}
+
+.dropdown-custom:hover .header{
+  border-bottom: none;
+  padding-bottom: 15px;
+  color: #A5A5A5;
+}
+
+.dropdown-custom > .header, .dropdown-custom > .list{
+  border: #288DCB 1px solid;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 16px;
+}
+
+.dropdown-custom > .header{
+  padding: 13px 0px 14px 33px;
+  text-transform: none;
+  display: flex;
+}
+
+.dropdown-custom > .header > .title{
+  flex-grow: 1;
+}
+
+.dropdown-custom > .header > .img{
+  margin-right: 19px;
+}
+
+.dropdown-custom > .header > .img > img{
+  transition: all 0.2s ease-in-out;
+}
+
+.dropdown-custom > .list{
+  border-top: none;
+  padding-top: 5px;
+}
+
+.dropdown-custom > .list div{
+  padding: 17px 0px 17px 33px;
+}
+
+.dropdown-custom > .list div:hover{
+  background-color: #EEEEEE;
+}
+
+.dropdown-custom .list .selected, .dropdown-custom .list .checked{
+  background-color: #858585;
 }
 
 .toolbar{

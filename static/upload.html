@@ -66,17 +66,18 @@
             <div id = "imageSelected" class = "selected hidden"></div>
           </div>
           <div class = "info">
-            <div class = "custom-row-0">
-              <div>
-                <span>Серийный номер</span>
-                <input id = "serialNumberInput" type = "text" placeholder = "Введите номер" />
-              </div>
-              <div style = "width: 100%; margin-left: 20px">
-                <span>Категория</span>
-                <div data-id = "category" class = "dropdown">
-                  <div id = "categoryHeader" class = "header">Категория</div>
-                  <selectList data-id = "categories" class = "list"></selectList>
+            <div>
+              <span>Серийный номер</span>
+              <input id = "serialNumberInput" type = "text" placeholder = "Введите номер" />
+            </div>
+            <div>
+              <span>Категория</span>
+              <div data-id = "category" class = "dropdown">
+                <div class = "header">
+                  <div id = "categoryHeader" class = "title">Категория</div>
+                  <div class = "img"><img src = "assets/img/triangle.png" /></div>
                 </div>
+                <selectList data-id = "categories" class = "list"></selectList>
               </div>
             </div>
             <div>

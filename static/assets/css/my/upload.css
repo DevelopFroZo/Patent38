@@ -78,10 +78,6 @@
   flex-direction: column;
 }
 
-.upload .info .custom-row-0{
-  display: flex;
-}
-
 .upload .info span{
   display: block;
   font-family: "Ubuntu", sans-serif;
@@ -96,6 +92,63 @@
   margin-bottom: 8px;
   font-family: "Ubuntu", sans-serif;
   font-size: 12px;
+}
+
+.upload > .info .dropdown{
+  width: 100%;
+  margin-bottom: 8px;
+  background: rgb( 255, 255, 255 );
+}
+.upload > .info .dropdown:hover .header > .img > img{
+  transform: rotate( 180deg );
+}
+
+.upload > .info .dropdown:hover .header{
+  border-bottom: none;
+  padding-bottom: 13px;
+}
+
+.upload > .info .dropdown > .header, .upload > .info .dropdown > .list{
+  border: #E1E1E1 1px solid;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 12px;
+  background-color: rgb( 255, 255, 255 );
+}
+
+.upload > .info .dropdown > .header{
+  padding: 12px 0px 12px 8px;
+  text-transform: none;
+  display: flex;
+  color: #707070;
+}
+
+.upload > .info .dropdown > .header > .title{
+  flex-grow: 1;
+}
+
+.upload > .info .dropdown > .header > .img{
+  margin-right: 19px;
+}
+
+.upload > .info .dropdown > .header > .img > img{
+  transition: all 0.2s ease-in-out;
+}
+
+.upload > .info .dropdown > .list{
+  border-top: none;
+  padding-top: 5px;
+}
+
+.upload > .info .dropdown > .list div{
+  padding: 12px 0px 12px 33px;
+}
+
+.upload > .info .dropdown > .list div:hover{
+  background-color: #EEEEEE;
+}
+
+.upload > .info .dropdown .list .selected, .dropdown .list .checked{
+  background-color: #858585;
 }
 
 .upload .info input::placeholder, .upload .info textarea::placeholder{

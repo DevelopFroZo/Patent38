@@ -69,6 +69,7 @@ function index(){
   selectList.on( "select", ( e ) => {
     const categoryHeader = document.querySelector( "#categoryHeader" );
 
+    categoryHeader.style.color = "#000000";
     categoryHeader.setAttribute( "value", e.detail.getAttribute( "value" ) );
     categoryHeader.innerHTML = e.detail.innerHTML;
   } );

@@ -63,8 +63,11 @@
             </div>
           </div>
           <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-4">
-            <div class = "dropdown" style = "z-index: 2">
-              <div class = "header">Категории</div>
+            <div class = "dropdown dropdown-custom" style = "z-index: 2">
+              <div class = "header">
+                <div class = "title">Категории</div>
+                <div class = "img"><img src = "assets/img/triangle.png" /></div>
+              </div>
               <div class = "list">
                 <div id = "checkAll">Всё</div>
                 <checkboxList data-id = "categories"></div>
@@ -136,17 +139,18 @@
               <div id = "imageSelected" class = "selected"></div>
             </div>
             <div class = "info">
-              <div class = "custom-row-0">
-                <div>
-                  <span>Серийный номер</span>
-                  <input id = "serialNumberInput" type = "text" placeholder = "Введите номер" />
-                </div>
-                <div style = "width: 100%; margin-left: 20px">
-                  <span>Категория</span>
-                  <div data-id = "category" class = "dropdown">
-                    <div id = "categoryHeader" class = "header">Категория</div>
-                    <selectList data-id = "categories" class = "list"></selectList>
+              <div>
+                <span>Серийный номер</span>
+                <input id = "serialNumberInput" type = "text" placeholder = "Введите номер" />
+              </div>
+              <div>
+                <span>Категория</span>
+                <div data-id = "category" class = "dropdown">
+                  <div class = "header">
+                    <div id = "categoryHeader" class = "title">Категория</div>
+                    <div class = "img"><img src = "assets/img/triangle.png" /></div>
                   </div>
+                  <selectList data-id = "categories" class = "list"></selectList>
                 </div>
               </div>
               <div>

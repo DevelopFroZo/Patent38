@@ -3,6 +3,15 @@
   display: inline-block;
 }
 
+.dropdown:hover{
+  cursor: pointer;
+}
+
+.dropdown:hover .list{
+  cursor: pointer;
+  visibility: visible;
+}
+
 .dropdown > .list{
   position: absolute;
   visibility: hidden;
@@ -10,47 +19,4 @@
   max-height: 200px;
   box-sizing: border-box;
   overflow-y: auto;
-}
-
-.dropdown:hover{
-  cursor: pointer;
-}
-
-.dropdown:hover .list, .dropdown > .list:hover{
-  cursor: pointer;
-  visibility: visible;
-}
-
-/* STYLE */
-.dropdown{
-  width: 100%;
-}
-
-.dropdown > .header, .dropdown > .list{
-  border: #288DCB 1px solid;
-  font-family: "Ubuntu", sans-serif;
-  font-size: 12px;
-}
-
-.dropdown > .header{
-  padding: 13px 14px 13px 14px;
-  text-transform: none;
-}
-
-.dropdown > .list{
-  border-top: none;
-  background: #288DCB !important;
-  color: #ffffff;
-}
-
-.dropdown > .list div{
-  padding: 10px;
-}
-
-.dropdown > .list div:hover{
-  background-color: rgba( 0, 0, 0, 0.1 );
-}
-
-.dropdown .list .selected, .dropdown .list .checked{
-  color: rgb( 0, 255, 0 );
 }
