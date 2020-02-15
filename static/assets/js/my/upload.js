@@ -1,5 +1,7 @@
 "use strict";
 
+let selectList;
+
 async function fetchCategories( selectList ){
   const response = await fetch( "/api/categories" );
   const categories = ( await response.json() ).data;
@@ -45,6 +47,8 @@ async function uploadButtonHandler(){
     imageInput.value = "";
     imageInput.dispatchEvent( new Event( "change" ) );
     serialNumber.value = "";
+    selectList.unselect();
+    document.querySelector( "#categoryHeader" ).innerHTML = "Категория";
     name.value = "";
     description.value = "";
 
@@ -54,7 +58,7 @@ async function uploadButtonHandler(){
 
 function index(){
   const upload = new Desk( "upload" );
-  const selectList = new SelectList( "categories" );
+  selectList = new SelectList( "categories" );
 
   fetchCategories( selectList );
   uploadControl();

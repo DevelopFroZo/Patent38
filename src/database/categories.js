@@ -8,13 +8,14 @@ module.exports = class extends Foundation{
   }
 
   async create( name ){
-    await super.query(
+    const id = ( await super.query(
       `insert into categories( name )
-      values( $1 )`,
+      values( $1 )
+      returning id`,
       [ name ]
-    );
+    ) ).rows[0].id;
 
-    return super.success();
+    return super.success( 0, id );
   }
 
   async get(){

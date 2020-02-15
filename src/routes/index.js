@@ -20,6 +20,7 @@ module.exports = server => {
     res.redirect( "/" );
   } );
   server.get( "/upload", isLogged( true, "/login" ) );
+  server.get( "/categories", isLogged( true, "/login" ) );
 
   server.use( "/api/auth", auth );
   server.use( "/api/patents", patents );
