@@ -87,7 +87,7 @@ function createPatent( patent ){
   let element;
 
   structure.column = document.createElement( "div" );
-  structure.column.className = "col-xs-12 col-sm-6 col-md-6 col-lg-4";
+  structure.column.className = "col-xs-12 col-sm-6 col-md-4 col-lg-4";
 
   structure.patentSection = document.createElement( "div" );
   structure.patentSection.className = "patent-section";
