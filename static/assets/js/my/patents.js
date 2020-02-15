@@ -215,6 +215,7 @@ async function index(){
   categories2 = new CheckboxList( "categories" );
   const searchInput = document.querySelector( "#searchInput" );
   patentsCount = 0;
+  const checkAll = document.querySelector( "#checkAll" );
 
   fetchCategories();
   await navbarControl();
@@ -278,7 +279,29 @@ async function index(){
     categoryHeader.innerHTML = "Категория";
   } );
 
-  categories2.on( "check", searchPatents );
+  categories2.on( "check", ( e ) => {
+    const items = e.target.getElementsByTagName( "div" );
+
+    if(
+      categories2.values.length === items.length ||
+      checkAll.getAttribute( "checked" ) !== null
+    ){
+      checkAll.toggleAttribute( "checked" );
+      checkAll.classList.toggle( "checked" );
+    }
+
+    searchPatents();
+  } );
+
+  checkAll.addEventListener( "click", ( e ) => {
+    checkAll.toggleAttribute( "checked" );
+    checkAll.classList.toggle( "checked" );
+
+    const checked = checkAll.getAttribute( "checked" ) !== null;
+
+    if( checked ) categories2.checkAll();
+    else categories2.uncheckAll();
+  } );
 }
 
 window.addEventListener( "load", index );

@@ -70,4 +70,42 @@ class CheckboxList{
     this.clear();
     data.forEach( item => this.add( item[0], item[1] ) );
   }
+
+  checkAll(){
+    const items = this.element.getElementsByTagName( "div" );
+
+    this.values = [];
+
+    for( let i = 0; i < items.length; i++ ){
+      const item = items[i];
+      const checked = item.getAttribute( "checked" ) !== null;
+
+      if( !checked ){
+        item.toggleAttribute( "checked" );
+        item.classList.toggle( "checked" );
+      }
+
+      this.values.push( item.getAttribute( "value" ) );
+    }
+
+    this.element.dispatchEvent( new Event( "checkAll" ) );
+  }
+
+  uncheckAll(){
+    const items = this.element.getElementsByTagName( "div" );
+
+    this.values = [];
+
+    for( let i = 0; i < items.length; i++ ){
+      const item = items[i];
+      const checked = item.getAttribute( "checked" ) !== null;
+
+      if( checked ){
+        item.toggleAttribute( "checked" );
+        item.classList.toggle( "checked" );
+      }
+    }
+
+    this.element.dispatchEvent( new Event( "uncheckAll" ) );
+  }
 }
