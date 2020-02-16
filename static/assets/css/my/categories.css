@@ -7,7 +7,130 @@
   color: rgb( 255, 255, 255 ) !important;
 }
 
-#addContainer{
+#menu{
+  margin-top: 120px;
+}
+
+.search{
+  display: flex;
+  background-color: rgb( 255, 255, 255, 0.5 );
+  padding: 13px 15px 13px 33px;
+  border: #288DCB 1px solid;
+}
+
+.search > input{
+  flex-grow: 1;
+  background: none;
+  border: none;
+  color: rgb( 255, 255, 255 );
+  font-family: "Ubuntu", sans-serif;
+  font-size: 16px;
+  outline: none;
+}
+.search > input::placeholder{
+  color: rgb( 255, 255, 255 );
+}
+
+.search > img:hover{
+  cursor: pointer;
+}
+
+.sort{
+  font-family: "Ubuntu", sans-serif;
+  font-size: 16px;
+  border: #288DCB 1px solid;
+  background-color: rgba( 255, 255, 255, 0.5 );
+  padding: 13px 0px 13px 0px;
+  width: 53px;
+  height: 53px;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+.sort:hover{
+  cursor: pointer;
+  background-color: #288DCB;
+}
+
+.disabled{
+  filter: grayscale( 100 );
+}
+.disabled:hover{
+  cursor: default;
+  background-color: rgba( 255, 255, 255, 0.5 );
+}
+
+.newCategory{
+  font-family: "Ubuntu", sans-serif;
+  font-size: 16px;
+  border: #288DCB 1px solid;
+  background-color: #288DCB;
+  color: #ffffff;
+  padding: 13px 0px 13px 0px;
+  width: 100%;
+  height: 53px;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+.newCategory:hover{
+  cursor: pointer;
+  background-color: rgba( 255, 255, 255, 0.5 );
+}
+
+.category{
+  display: flex;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 16px;
+  background: rgba( 255, 255, 255, 0.1 );
+  padding: 10px 0px 10px 33px;
+  border-top: #6F6F6F 1px solid;
+}
+.category:hover .toolbar-item{
+  visibility: visible;
+}
+
+.category:last-child{
+  border-bottom: #6F6F6F 1px solid;
+}
+
+.addCategory{
+  background-color: #288DCB;
+}
+.addCategory > input::placeholder{
+  color: rgba( 255, 255, 255, 0.5 );
+}
+
+.category > .title{
+  flex-grow: 1;
+}
+
+.category > .edit, .addCategory > input{
+  flex-grow: 1;
+  font-size: 16px;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0px;
+}
+
+.category > .toolbar-item{
+  padding: 0px 20px 0px 20px;
+  visibility: hidden;
+}
+.category > .toolbar-item:hover{
+  cursor: pointer;
+}
+
+@media( max-width: 760px ){
+  .search{
+    margin-bottom: 20px;
+  }
+
+  .newCategory{
+    font-size: 14px;
+  }
+}
+
+/* #addContainer{
   margin-top: 120px;
 }
 
@@ -82,4 +205,4 @@
 }
 .category_list .edit:focus{
   border-bottom: rgba( 255, 0, 0, 0.4 ) 1px solid;
-}
+} */

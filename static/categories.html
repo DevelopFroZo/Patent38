@@ -47,28 +47,53 @@
       </div>
     </div>
     <!--MENU SECTION END-->
-    <!-- ADD SECTION START-->
-    <div id = "addContainer" class = "container">
-      <div class = "row text-center header animate-in" data-anim-type = "fade-in-up">
-        <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-8">
-          <div class = "addContainer">
-            <div class = "addInputDiv"><input id = "addInput" type = "text" placeholder = "Категория..." /></div>
-            <div class = "addButtonDiv"><button id = "addButton">Добавить</button></div>
+
+    <!-- MENU SECTION START -->
+    <div id = "menu">
+      <div class = "container">
+        <div class = "row text-center header animate-in" data-anim-type = "fade-in-up">
+          <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h3>КАТЕГОРИИ ПАТЕНТОВ</h3>
+            <hr />
+          </div>
+        </div>
+        <div class = "row text-center header animate-in" data-anim-type = "fade-in-up">
+          <div class = "col-xs-12 col-sm-5 col-md-7 col-lg-7">
+            <div class = "search">
+              <!-- #fix ADD LATER -->
+              <input type = "text" id = "searchInput" class = "search-input" placeholder = "Поиск..." disabled />
+              <img id = "magnifier" src = "assets/img/magnifier-unselected.png" />
+            </div>
+          </div>
+          <div class = "col-xs-3 col-sm-2 col-md-1 col-lg-1">
+            <!-- #fix ADD LATER -->
+            <button class = "sort disabled" disabled>А-Я</button>
+          </div>
+          <div class = "col-xs-3 col-sm-2 col-md-1 col-lg-1">
+            <!-- #fix ADD LATER -->
+            <button class = "sort disabled" disabled>Я-А</button>
+          </div>
+          <div class = "col-xs-6 col-sm-3 col-md-3 col-lg-3">
+            <button id = "newCategory" class = "newCategory">Новая категория +</button>
           </div>
         </div>
       </div>
     </div>
-    <!-- ADD SECTION END -->
+    <!-- MENU SECTION END -->
 
     <!-- CATEGORIES SECTION START -->
-    <div id = "categories" class = "container">
-      <div class = "row text-center animate-in" data-anim-type = "fade-in-up">
-        <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <ul id = "categoryList" class = "category_list"></ul>
+    <div>
+      <div class = "container">
+        <div class = "row animate-in" data-anim-type = "fade-in-up">
+          <div id = "categories" class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id = "addCategory" class = "category addCategory hidden">
+              <input type = "text" id = "addCategoryInput" placeholder = "Введите название категории..." />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <!-- CATEGORIES SECTION START -->
+    <!-- CATEGORIES SECTION END -->
 
     <!-- JAVASCRIPT FILES PLACED AT THE BOTTOM TO REDUCE THE LOADING TIME -->
     <!-- CORE JQUERY -->
