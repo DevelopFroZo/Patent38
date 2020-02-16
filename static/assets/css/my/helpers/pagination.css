@@ -1,0 +1,14 @@
+.pagination{
+  display: flex;
+  margin: 0px;
+}
+
+.pagination button{
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.pagination .current-page{
+  text-decoration: underline;
+}

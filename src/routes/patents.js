@@ -72,21 +72,39 @@ router.post(
 
 router.get( "/", async ( req, res ) => {
   let count;
+  let offset;
   let categoryIds;
 
   if( req.query.count ) count = parseInt( req.query.count );
+  if( req.query.offset ) offset = parseInt( req.query.offset );
 
   if( isNaN( count ) || typeof count !== "number" ) count = -1;
+  if( isNaN( offset ) || typeof offset !== "number" ) offset = 0;
 
   if( req.query.categoryIds ) categoryIds = req.query.categoryIds.split( "," );
   else categoryIds = null;
 
   // #fix переделать req.query
-  res.json( await req.database.patents.get(
+  let data = ( await req.database.patents.get(
     count,
+    offset,
     req.query.search,
     categoryIds
-  ) );
+  ) ).data;
+  let allCount = 0;
+
+  if( data.length > 0 ){
+    allCount = data[0].count;
+
+    data.forEach( item => {
+      delete item.count;
+    } );
+  }
+
+  res.success( 0, {
+    patents: data,
+    count: allCount
+  } );
 } );
 
 // #fix добавить проверки

@@ -20,6 +20,7 @@
     <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/desk.css" />
     <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/patentControl.css" />
     <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/dropdown.css" />
+    <link rel = "stylesheet" type = "text/css" href = "assets/css/my/helpers/pagination.css" />
     <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/patents.css" />
     <link rel = "stylesheet" ензу = "text/css" href = "assets/css/my/upload.css" />
 
@@ -78,6 +79,35 @@
       </div>
     </div>
     <!-- SEARCH SECTION END -->
+
+    <!-- PAGINATION TOP SECTION START -->
+    <div>
+      <div class = "container">
+        <div class = "row animate-in" data-anim-type = "fade-in-up">
+          <div class = "col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class = "count-on-page">
+              Выводить по
+              <button id = "countOnPage3">3</button>
+              <button id = "countOnPage6">6</button>
+              <button id = "countOnPage9">9</button>
+            </div>
+          </div>
+          <div class = "col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <pagination data-id = "paginationTop" class = "pagination">
+              <button class = "left-arrows"><<</button>
+              <button class = "first-page">1</button>
+              <div class = "left-dots hidden">...</div>
+              <div class = "custom-pages"></div>
+              <div class = "right-dots hidden">...</div>
+              <button class = "last-page"></button>
+              <button class = "right-arrows">>></button>
+            </pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- PAGINATION TOP SECTION END -->
+
     <!-- PATENTS SECTION START-->
     <div class = "container">
       <div id = "patentsRow" class = "row animate-in" data-anim-type = "fade-in-up"></div>
@@ -194,6 +224,7 @@
     <script type = "text/javascript" src = "assets/js/my/helpers/uploadControl.js"></script>
     <script type = "text/javascript" src = "assets/js/my/helpers/selectList.js"></script>
     <script type = "text/javascript" src = "assets/js/my/helpers/checkboxList.js"></script>
+    <script type = "text/javascript" src = "assets/js/my/helpers/pagination.js"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
     <script type = "text/javascript" src = "assets/js/my/patents.js"></script>

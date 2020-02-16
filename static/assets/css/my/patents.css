@@ -102,6 +102,29 @@
   background-color: #858585;
 }
 
+.count-on-page{
+  color: #288DCB;
+}
+
+.count-on-page button{
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.count-on-page button:first-child{
+  margin-left: 20px;
+}
+
+.count-on-page .current-count{
+  text-decoration: underline;
+}
+
+.pagination{
+  justify-content: flex-end;
+  color: #288DCB;
+}
+
 .toolbar{
   width: 100%;
   display: flex;
@@ -138,4 +161,20 @@
 
 .patent-section{
   margin-top: -25px;
+}
+
+@media( max-width: 1199px ){
+  .dropdown-custom{
+    margin-bottom: 20px;
+  }
+}
+
+@media( max-width: 760px ){
+  .count-on-page{
+    text-align: center;
+  }
+
+  .pagination{
+    justify-content: center;
+  }
 }

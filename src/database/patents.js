@@ -40,9 +40,10 @@ module.exports = class extends Foundation{
     }
   }
 
-  async get( count, search, categoryIds ){
+  async get( count, offset, search, categoryIds ){
     try{
       const limit = count > -1 ? "limit " + count : "";
+      const offset_ = offset > 0 ? "offset " + offset : "";
       let filters = [];
       let fc = 1;
       const params = [];
@@ -67,14 +68,19 @@ module.exports = class extends Foundation{
         filters = "";
 
       const data = ( await super.query(
-        `select p.*, c.name as category_name
-        from
-          patents as p
-          left join categories as c
-          on p.category_id = c.id
-        ${filters}
-        order by date desc
-        ${limit}`,
+        `with q as (
+          select p.*, c.name as category_name, count( 1 ) over ()
+          from
+            patents as p
+            left join categories as c
+            on p.category_id = c.id
+          ${filters}
+          order by date desc
+        )
+        select *
+        from q
+        ${limit}
+        ${offset_}`,
         params
       ) ).rows;
 
