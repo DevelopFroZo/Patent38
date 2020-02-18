@@ -1,12 +1,3 @@
-.navbar_custom_a{
-  color: #288DCB !important;
-  transition: all 0.5s ease-in-out;
-}
-
-.navbar_custom_a:hover{
-  color: rgb( 255, 255, 255 ) !important;
-}
-
 .upload-container{
   position: relative;
   height: 100vh;

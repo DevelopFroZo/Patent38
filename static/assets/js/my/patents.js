@@ -19,12 +19,14 @@ async function navbarControl(){
 
   const authLink = document.querySelector( "#authLink" );
   const uploadLi = document.querySelector( "#uploadLi" );
+  const categoriesLi = document.querySelector( "#categoriesLi" );
 
   if( isLogged ){
     authLink.href = "/logout";
     authLink.innerHTML = "ВЫЙТИ";
 
-    uploadLi.classList.toggle( "hidden" );
+    uploadLi.classList.remove( "hidden" );
+    categoriesLi.classList.remove( "hidden" );
   }
 }
 

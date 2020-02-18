@@ -1,0 +1,68 @@
+#vacation{
+  margin-top: 120px;
+}
+
+.vacation{
+  background-color: rgba( 255, 255, 255, 0.05 );
+  padding: 15px 50px 15px 50px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.vacation .grey-text{
+  color: #A5A5A5;
+}
+
+.vacation .w65{
+  width: 65%;
+}
+
+.vacation .w35{
+  width: 35%;
+}
+
+.vacation > .support-info{
+  display: flex;
+  border-bottom: #ffffff 1px solid;
+}
+
+.vacation > .support-info > div{
+  margin-right: 30px;
+}
+
+.vacation > .header{
+  padding-bottom: 0px;
+  text-transform: none;
+  display: flex;
+  margin-top: 10px;
+}
+
+.vacation > .header h3{
+  margin-top: 0px;
+}
+
+.vacation > .header .organization{
+  font-family: "Oswald", sans-serif;
+  font-size: 21px;
+  border-bottom: #ffffff 1px solid;
+}
+
+.vacation > .price{
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 25px;
+}
+
+.vacation .list{
+  margin-top: 30px;
+}
+
+.vacation .list > .title{
+  font-weight: bold;
+}
+
+.vacation .list li{
+  color: #C6C6C6;
+}
