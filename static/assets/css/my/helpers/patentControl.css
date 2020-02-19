@@ -132,6 +132,7 @@
 
 .patent_contacts .inline-block{
   display: inline-block;
+  min-width: 30vw;
 }
 
 .patent_contacts .header{

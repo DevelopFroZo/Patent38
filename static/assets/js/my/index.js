@@ -13,6 +13,7 @@ async function fetchPatents(){
 
     node.getElementsByClassName( "patent-section" )[0].addEventListener( "click", () => {
       isPatentIssue = true;
+      document.querySelector( "#patentContactsTitle" ).innerHTML = "ОФОРМЛЕНИЕ ЗАЯВКИ НА ПАТЕНТ";
       patentIssueForm.clear();
       patentIssueForm.fill( patent );
       patentDetail.open();
@@ -62,6 +63,7 @@ function priceIssue(){
   for( let i = 0; i < priceIssueA.length; i++ ){
     priceIssueA[i].addEventListener( "click", () => {
       isPatentIssue = false;
+      document.querySelector( "#patentContactsTitle" ).innerHTML = "ОФОРМЛЕНИЕ УСЛУГИ";
       overlay.open();
       patentContacts.open();
       service = priceIssueA[i].getAttribute( "value" );
