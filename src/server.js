@@ -32,7 +32,7 @@ const mail = nodemailer.createTransport( {
   }
 } );
 
-mail.send = ( to, subject, text, html ) => req.mail.sendMail( {
+mail.send = ( to, subject, text, html ) => mail.sendMail( {
   from: process.env.EMAIL_FROM,
   to,
   subject,
