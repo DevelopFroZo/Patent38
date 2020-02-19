@@ -104,10 +104,6 @@
   outline: none;
 }
 
-.count-on-page button:first-child{
-  margin-left: 20px;
-}
-
 .count-on-page .current-count{
   text-decoration: underline;
 }

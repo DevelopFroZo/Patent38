@@ -144,7 +144,7 @@ async function searchPatents( patentIssueForm ){
   search = search.replace( /  +/g, " " ).replace( / /g, "|" );
 
   await fetchPatents();
-  history.pushState( '', '', `/patents?count=${countOnPage}` );
+  history.pushState( '', '', `?count=${countOnPage}` );
   paginationTop.set( allCount, countOnPage, 0 );
 }
 
@@ -212,13 +212,21 @@ async function savePatentHandler(){
 function changeCountOnPage(){
   const countOnPage3 = document.querySelector( "#countOnPage3" );
   const countOnPage6 = document.querySelector( "#countOnPage6" );
-  const countOnPage9 = document.querySelector( "#countOnPage9" );
 
   countOnPage3.classList.remove( "current-count" );
   countOnPage6.classList.remove( "current-count" );
-  countOnPage9.classList.remove( "current-count" );
 
-  document.querySelector( `#countOnPage${countOnPage}` ).classList.add( "current-count" );
+  document.querySelector( `#countOnPage${countOnPage === 9 ? 3 : 6}` ).classList.add( "current-count" );
+}
+
+function resizePatents( mode ){
+  const patents = document.getElementsByClassName( "patent" );
+  const resized = patents[0].classList.contains( "resize" );
+
+  if( mode === resized ) return;
+
+  for( let i = 0; i < patents.length; i++ )
+    patents[i].classList.toggle( "resize" );
 }
 
 async function index(){
@@ -235,7 +243,7 @@ async function index(){
   const checkAll = document.querySelector( "#checkAll" );
   const query = new URLSearchParams( window.location.search );
   countOnPage = query.get( "count" );
-  countOnPage = countOnPage ? parseInt( countOnPage ) : 3;
+  countOnPage = countOnPage ? parseInt( countOnPage ) : 9;
   offset = query.get( "offset" );
   offset = offset ? parseInt( offset ) : 0;
   search = "";
@@ -335,43 +343,34 @@ async function index(){
 
   paginationTop.on( "change", ( e ) => {
     offset = e.detail;
-    history.pushState( '', '', `/patents?count=${countOnPage}&offset=${offset}` );
+    history.pushState( '', '', `?count=${countOnPage}&offset=${offset}` );
 
     fetchPatents();
   } );
 
   const countOnPage3 = document.querySelector( "#countOnPage3" );
   const countOnPage6 = document.querySelector( "#countOnPage6" );
-  const countOnPage9 = document.querySelector( "#countOnPage9" );
 
   countOnPage3.addEventListener( "click", async () => {
-    if( countOnPage === 3 ) return;
-
-    countOnPage = 3;
-    offset = 0;
-    history.pushState( '', '', `/patents?count=${countOnPage}` );
-    changeCountOnPage();
-    await fetchPatents();
-    paginationTop.set( allCount, countOnPage, 0 );
-  } );
-  countOnPage6.addEventListener( "click", async () => {
-    if( countOnPage === 6 ) return;
-
-    countOnPage = 6;
-    offset = 0;
-    history.pushState( '', '', `/patents?count=${countOnPage}` );
-    changeCountOnPage();
-    await fetchPatents();
-    paginationTop.set( allCount, countOnPage, 0 );
-  } );
-  countOnPage9.addEventListener( "click", async () => {
     if( countOnPage === 9 ) return;
 
     countOnPage = 9;
     offset = 0;
-    history.pushState( '', '', `/patents?count=${countOnPage}` );
+    history.pushState( '', '', `?count=${countOnPage}` );
     changeCountOnPage();
     await fetchPatents();
+    resizePatents( false );
+    paginationTop.set( allCount, countOnPage, 0 );
+  } );
+  countOnPage6.addEventListener( "click", async () => {
+    if( countOnPage === 18 ) return;
+
+    countOnPage = 18;
+    offset = 0;
+    history.pushState( '', '', `?count=${countOnPage}` );
+    changeCountOnPage();
+    await fetchPatents();
+    resizePatents( true );
     paginationTop.set( allCount, countOnPage, 0 );
   } );
 }
