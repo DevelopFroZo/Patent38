@@ -15,7 +15,7 @@ class PatentIssueForm{
     this.contactsPersonal = document.querySelector( "#contactsPersonal" );
 
     this.contactsPersonal.addEventListener( "change", ( e ) => this.issueToggle( e ) );
-    this.issue_.addEventListener( "click", () => this.issue() );
+    this.issue_.addEventListener( "click", () => this.contacts.dispatchEvent( new Event( "issue" ) ) );
   }
 
   clear(){

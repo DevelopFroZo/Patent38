@@ -83,6 +83,10 @@
   padding-bottom: 9px;
 }
 
+.patent_detail-category{
+  color: #A5A5A5;
+}
+
 .patent_detail-name{
   font-family: "Oswald", sans-serif;
   font-size: 21px;

@@ -1,6 +1,8 @@
-let overlay, patentDetail, patentContacts, patentIssueForm;
+let
+  overlay, patentDetail, patentContacts,
+  patentIssueForm, isPatentIssue, service;
 
-async function fetchPatents( patentIssueForm ){
+async function fetchPatents(){
   const response = await fetch( "api/patents?count=3" );
   const data = ( await response.json() ).data;
   const patentsRow = document.querySelector( "#patentsRow" );
@@ -10,47 +12,83 @@ async function fetchPatents( patentIssueForm ){
     const node = createPatent( patent );
 
     node.getElementsByClassName( "patent-section" )[0].addEventListener( "click", () => {
+      isPatentIssue = true;
       patentIssueForm.clear();
       patentIssueForm.fill( patent );
+      patentDetail.open();
       overlay.open();
     } );
     patentsRow.appendChild( node );
   } );
 }
 
-// #fix
-async function navbarControl(){
-  const response = await fetch( "api/auth/isLogged" );
-  const isLogged = ( await response.json() ).data;
-
-  const authLink = document.querySelector( "#authLink" );
-
-  if( isLogged ){
-    authLink.href = "/logout";
-    authLink.innerHTML = "ВЫЙТИ";
+function patentContactsClose(){
+  if( isPatentIssue ){
+    patentContacts.close();
+    patentDetail.open();
+  } else {
+    overlay.close();
+    patentContacts.close();
   }
 }
 
-function patentContactsClose(){
+async function issueService(){
+  const name = document.querySelector( "#contactName" ).value;
+  const email = document.querySelector( "#contactEmail" ).value;
+  const phone = document.querySelector( "#contactPhone" ).value;
+
+  const response = await fetch( "/api/services/issue", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify( { name, email, phone, service } )
+  } );
+  const jsn = await response.json();
+
+  if( !jsn.ok )
+    return alert( "Ошибка оформления услуги" );
+
+  alert( "Заявка на оформление услуги успешно отправлена!" );
+
+  overlay.close();
   patentContacts.close();
-  patentDetail.open();
+  patentIssueForm.clear();
+}
+
+function priceIssue(){
+  const priceIssueA = document.getElementsByName( "priceIssue" );
+
+  for( let i = 0; i < priceIssueA.length; i++ ){
+    priceIssueA[i].addEventListener( "click", () => {
+      isPatentIssue = false;
+      overlay.open();
+      patentContacts.open();
+      service = priceIssueA[i].getAttribute( "value" );
+    } );
+  }
 }
 
 function index(){
   overlay = new Overlay( "overlay" );
   patentDetail = new Desk( "patentDetail" );
   patentContacts = new Desk( "patentContacts" );
-  const patentIssueForm = new PatentIssueForm();
+  patentIssueForm = new PatentIssueForm();
 
-  fetchPatents( patentIssueForm );
-  navbarControl();
+  fetchPatents();
+  priceIssue();
 
   overlay.on( "esc", () => {
-    if( patentDetail.isOpen ) overlay.close();
+    if( isPatentIssue && patentDetail.isOpen ){
+      overlay.close();
+      patentDetail.close();
+    }
     else patentContactsClose();
   } );
-  patentDetail.open();
-  patentDetail.on( "close", () => overlay.close() );
+  patentDetail.on( "close", () => {
+    overlay.close();
+    patentDetail.close();
+  } );
 
   document.querySelector( "#patentBuy" ).addEventListener( "click", () => {
     patentDetail.close();
@@ -58,11 +96,16 @@ function index(){
   } );
 
   patentContacts.on( "close", patentContactsClose );
+
+  patentIssueForm.on( "issue", () => {
+    if( isPatentIssue ) patentIssueForm.issue();
+    else issueService();
+  } );
+
   patentIssueForm.on( "success", () => {
     patentContacts.close();
     patentIssueForm.clear();
     overlay.close();
-    patentDetail.open();
   } );
 }
 

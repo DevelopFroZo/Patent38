@@ -5,6 +5,7 @@ const isLogged = require( "./helpers/isLogged" );
 const auth = require( "./auth" );
 const patents = require( "./patents" );
 const categories = require( "./categories" );
+const services = require( "./services" );
 
 module.exports = server => {
   server.get( "/assets/img/patents/*", ( req, res ) => {
@@ -25,4 +26,6 @@ module.exports = server => {
   server.use( "/api/auth", auth );
   server.use( "/api/patents", patents );
   server.use( "/api/categories", categories );
+
+  server.use( "/api/services", services );
 };

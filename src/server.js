@@ -22,6 +22,24 @@ const routes = require( "./routes" );
 const pgStore = pgStoreConnect( session );
 const server = express();
 
+const mail = nodemailer.createTransport( {
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
+  secure: process.env.EMAIL_SECURE,
+  auth: {
+    user: process.env.EMAIL_AUTH_USER,
+    pass: process.env.EMAIL_AUTH_PASS
+  }
+} );
+
+mail.send = ( to, subject, text, html ) => req.mail.sendMail( {
+  from: process.env.EMAIL_FROM,
+  to,
+  subject,
+  text,
+  html
+} );
+
 // Settings
 server.use(
   helmet(),
@@ -52,27 +70,8 @@ server.use(
 
 // Some upgrade
 server.use( ( req, res, next ) => {
-  req.database = database;
-
-  // #fix вынести в helper
-  if( dev ){
-    req.mail = nodemailer.createTransport( {
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      secure: process.env.EMAIL_SECURE,
-      auth: {
-        user: process.env.EMAIL_AUTH_USER,
-        pass: process.env.EMAIL_AUTH_PASS
-      }
-    } );
-    req.mail.send = ( to, subject, text, html ) => req.mail.sendMail( {
-      from: process.env.EMAIL_FROM,
-      to,
-      subject,
-      text,
-      html
-    } );
-  }
+  req.database = database
+  req.mail = mail;
 
   res.success = ( code, data ) => res.json( database.success( code, data ) );
   res.error = code => res.json( database.error( code ) );

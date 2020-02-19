@@ -12,7 +12,7 @@
 
 .search{
   display: flex;
-  background-color: rgb( 255, 255, 255, 0.5 );
+  background-color: rgb( 255, 255, 255, 0.05 );
   padding: 13px 15px 13px 33px;
   border: #288DCB 1px solid;
 }
@@ -36,6 +36,7 @@
 
 .dropdown-custom{
   width: 100%;
+  background-color: rgba( 255, 255, 255, 0.05 );
 }
 .dropdown-custom:hover .header > .img > img{
   transform: rotate( 180deg );
@@ -114,6 +115,10 @@
 .pagination{
   justify-content: flex-end;
   color: #288DCB;
+}
+
+.pagination button{
+  padding: 0px 10px 0px 10px;
 }
 
 .toolbar{

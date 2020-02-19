@@ -13,6 +13,7 @@ module.exports = {
     5: "Invalid serial number",
     6: "Patent already registered",
     7: "Fail to upload file",
-    8: "Fail to delete patent"
+    8: "Fail to delete patent",
+    9: "Undefined service to issue"
   }
 };
